@@ -55,8 +55,8 @@
     self.lineChartView.isEnableUserAction = YES;
     self.lineChartView.isScaleToView = NO;
     self.lineChartView.isShowTipLine = NO;
-    self.lineChartView.xLineCount = 10;
-    self.lineChartView.yLineCount = 10;
+    self.lineChartView.xLineCount = 5;
+    self.lineChartView.yLineCount = 5;
     [self.lineChartView setDataSource:self.dataSourceAry];
     [self.view addSubview:self.lineChartView];
     
