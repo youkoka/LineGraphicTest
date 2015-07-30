@@ -100,6 +100,9 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 @property NSInteger xLineCount;
 @property NSInteger yLineCount;
 
+@property NSInteger xDrawLineCount;
+@property NSInteger yDrawLineCount;
+
 //! 軸線間隔大小
 @property(readonly) CGFloat xPerStepWidth;
 @property(readonly) CGFloat yPerStepHeight;

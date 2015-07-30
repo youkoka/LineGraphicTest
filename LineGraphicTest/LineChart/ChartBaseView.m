@@ -89,8 +89,12 @@
     self.drawContentWidth = self.frame.size.width - (_edgeInset.left + _edgeInset.right);
     self.drawContentHeight = self.frame.size.height - (_edgeInset.bottom + _edgeInset.top);
     
-    _xPerStepWidth = self.drawContentWidth / self.xLineCount * self.zoomScale;
-    _yPerStepHeight = self.drawContentHeight / self.yLineCount * self.zoomScale;
+    //! +1 : 最右/上多一格
+    self.xDrawLineCount = self.xLineCount;
+    self.yDrawLineCount = self.yLineCount;
+    
+    _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount * self.zoomScale;
+    _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount  * self.zoomScale;
     
     [self setNeedsDisplay];
 }
@@ -100,14 +104,16 @@
 {
     _tapLocation = [recongizer locationInView:self];
 
-    self.isShowTipLine = self.showTipFlag ? YES : NO;
+//    self.isShowTipLine = self.showTipFlag ? YES : NO;
+    
+    self.isShowTipLine = YES;
     
     if(recongizer.state == UIGestureRecognizerStateEnded) {
         
-        if (self.showTipFlag == YES) {
+//        if (self.showTipFlag == YES) {
         
             self.isShowTipLine = NO;
-        }
+//        }
     }
     
     [self setNeedsDisplay];

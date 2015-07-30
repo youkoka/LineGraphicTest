@@ -37,7 +37,7 @@
     
     self.dataSourceAry = [NSMutableArray array];
     
-    for (int i = 0; i != 3; i++) {
+    for (int i = 0; i != 365; i++) {
         
         AnchorItem *item = [[AnchorItem alloc] init];
         item.xValue = i + 1;
@@ -54,7 +54,7 @@
     self.lineChartView = [[LineChartView alloc] initWithFrame:rect];
     self.lineChartView.isEnableUserAction = YES;
     self.lineChartView.isScaleToView = NO;
-    self.lineChartView.isShowTipLine = NO;
+    self.lineChartView.isShowTipLine = YES;
     self.lineChartView.xLineCount = 5;
     self.lineChartView.yLineCount = 5;
     [self.lineChartView setDataSource:self.dataSourceAry];

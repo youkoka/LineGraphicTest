@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSMutableArray *y1Array;
 @property (nonatomic, strong) NSMutableArray *y2Array;
 
+@property (nonatomic, strong) UIImageView *marker;
+
 //! 產生 X/Y軸刻度
 -(void) buildAxisStepByDataSource;
 
@@ -83,7 +85,7 @@
     CGPoint startAnchorPoint2 = self.originPoint;
     CGPoint endAnchorPoint2 = self.originPoint;
     
-    NSInteger anchorRadius = 3;
+    NSInteger anchorRadius = 0.5;
 
     if (self.anchorAry != nil) {
         
@@ -105,13 +107,13 @@
         
         float xPerStepVal = [[self.xArray objectAtIndex:0] floatValue];
         float y1PerStepVal = [[self.y1Array objectAtIndex:0] floatValue];
-
+        
         startAnchorPoint1.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
         startAnchorPoint1.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y1Value) / y1PerStepVal)) + self.contentScroll.y;
         
         //! 畫點, 範圍區塊內才畫
-        if ((startAnchorPoint1.x >= self.originPoint.x && startAnchorPoint1.x <= self.rightBottomPoint.x) &&
-            (startAnchorPoint1.y >= self.originPoint.y && startAnchorPoint1.y <= self.rightTopPoint.y)) {
+        if ((startAnchorPoint1.x >= self.originPoint.x && startAnchorPoint1.x < (self.rightBottomPoint.x + self.edgeInset.right)) &&
+            (startAnchorPoint1.y >= self.originPoint.y && startAnchorPoint1.y < (self.rightTopPoint.y + self.edgeInset.top))) {
         
             AnchorView *anchor = nil;
             
@@ -138,8 +140,8 @@
         startAnchorPoint2.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y2Value) / y2PerStepVal)) + self.contentScroll.y;
 
         //! 畫點, 範圍區塊內才畫
-        if ((startAnchorPoint2.x >= self.originPoint.x && startAnchorPoint2.x <= self.rightBottomPoint.x) &&
-            (startAnchorPoint2.y >= self.originPoint.y && startAnchorPoint2.y <= self.rightTopPoint.y)) {
+        if ((startAnchorPoint2.x >= self.originPoint.x && startAnchorPoint2.x < (self.rightBottomPoint.x + self.edgeInset.right)) &&
+            (startAnchorPoint2.y >= self.originPoint.y && startAnchorPoint2.y < (self.rightTopPoint.y + self.edgeInset.top))) {
             
             AnchorView *anchor = nil;
             
@@ -205,50 +207,54 @@
                              endPoint:endAnchorPoint2
                             lineColor:[UIColor redColor] width:1.0f];
             }
-/*
+
             if(self.isShowTipLine == YES) {
                 
                 CGPoint tipPoint = CGPointMake(0, 0);
                 
                 //! 指示線
-                if (startAnchorPoint.x <= self.tapLocation.x && endAnchorPoint.x >= self.tapLocation.x) {
+                if (startAnchorPoint1.x <= self.tapLocation.x && endAnchorPoint1.x >= self.tapLocation.x) {
                     
-                    if (fabs(startAnchorPoint.x - self.tapLocation.x) <= fabs(endAnchorPoint.x - self.tapLocation.x) ) {
+                    if (fabs(startAnchorPoint1.x - self.tapLocation.x) <= fabs(endAnchorPoint1.x - self.tapLocation.x) ) {
                         
-                        tipPoint = startAnchorPoint;
+                        tipPoint = startAnchorPoint1;
                     }
                     else {
                     
-                        tipPoint = endAnchorPoint;
+                        tipPoint = endAnchorPoint1;
                     }
                     
                     CGFloat yPattern[1]= {1};
                     CGContextSetLineDash(context, 0.0, yPattern, 0);
                     
+                    UIImageView *marker = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
+                    marker.frame = CGRectMake(tipPoint.x, tipPoint.y, 50, 30);
+                    [self addSubview:marker];
+
                     //! 橫線
                     [ChartCommon drawLine:context
                                startPoint:CGPointMake(self.originPoint.x, tipPoint.y)
                                  endPoint:CGPointMake(self.rightBottomPoint.x, tipPoint.y)
-                                lineColor:[UIColor whiteColor] width:2.0f];
+                                lineColor:[UIColor grayColor] width:1.0f];
                     
                     //! 豎線
                     [ChartCommon drawLine:context
-                               startPoint:CGPointMake(tipPoint.x, tipPoint.y)
+                               startPoint:CGPointMake(tipPoint.x, self.rightTopPoint.y)
                                  endPoint:CGPointMake(tipPoint.x, self.originPoint.y)
-                                lineColor:[UIColor whiteColor] width:2.0f];
+                                lineColor:[UIColor grayColor] width:1.0f];
                 }
             }
- */
         }
     }
 
+    /*
 #pragma mark rectangle(超出軸線部分用方塊蓋掉)
     
     [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.originPoint.x, self.originPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
 
     [ChartCommon drawRect:context rect:CGRectMake(self.originPoint.x, self.originPoint.y, self.rightBottomPoint.x, self.rightBottomPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
     
- 
+ */
     //! 畫虛線
 #pragma mark 畫 Y 軸上 X 軸(虛)線
     
@@ -265,16 +271,13 @@
         CGContextSetLineDash(context, 0.0, xPattern, 2);
     }
     
-    NSInteger count = 0;
-    
     for (NSInteger i = 0; i < [self.y1Array count]; i++) {
         
         CGFloat yPosition = self.originPoint.y + (i + 1) * self.yPerStepHeight + self.contentScroll.y;
         
         //! 範圍區塊內才畫
-        if (yPosition > self.originPoint.y && ABS(yPosition - self.originPoint.y) <= self.frame.size.height) {
+        if (yPosition > self.originPoint.y && fabs(yPosition - self.originPoint.y) <= self.frame.size.height) {
             
-            count++;
             if (self.drawLineTypeOfX == LineDrawTypeNone) {
             
                 //! 劃線
@@ -303,16 +306,15 @@
             CGContextShowTextAtPoint(context, 5, yPosition - (size.height / 2 - size.height / 4), str, strlen(str));
         }
     }
-    NSLog(@"count = %ld", count);
     
-#pragma mark 畫 X 軸上 Y 軸(虛)線數量
+#pragma mark 畫 X 軸上 Y 軸(虛)線
 
     for (NSInteger i = 0; i < [self.xArray count]; i++) {
         
         CGFloat xPosition = self.originPoint.x + (i + 1) * self.xPerStepWidth + self.contentScroll.x;
         
         //! 範圍區塊內才畫
-        if (xPosition > self.originPoint.x && ABS(xPosition - self.originPoint.x) <= self.frame.size.width) {
+        if (xPosition > self.originPoint.x && fabs(xPosition - self.originPoint.x) <= self.frame.size.width) {
             
             if (self.drawLineTypeOfY == LineDrawTypeNone) {
                 
@@ -334,7 +336,7 @@
             [[UIColor colorWithCGColor:[UIColor blackColor].CGColor] set];
             CGContextSelectFont(context, "Helvetica", 12, kCGEncodingMacRoman);
             const char *str = [valStr cStringUsingEncoding:NSUTF8StringEncoding];
-            CGContextShowTextAtPoint(context, xPosition - (size.width / 2 - size.width / 4), self.originPoint.y - 15, str, strlen(str));
+            CGContextShowTextAtPoint(context, xPosition - (size.width / 2 + size.width / 4), self.originPoint.y - 15, str, strlen(str));
         }
     }
     
@@ -430,7 +432,7 @@
         
         self.xPreStepValue = xMax / self.xLineCount;
         
-        for (int i = 0; i != self.xLineCount; i++) {
+        for (int i = 0; i != self.xDrawLineCount; i++) {
             
             [self.xArray addObject:[NSNumber numberWithFloat: (self.xPreStepValue + i * self.xPreStepValue)]];
         }
@@ -447,7 +449,7 @@
         
         self.y1PreStepValue = yMax / self.yLineCount;
         
-        for (int i = 0; i != self.yLineCount; i++) {
+        for (int i = 0; i != self.yDrawLineCount; i++) {
             
             [self.y1Array addObject:[NSNumber numberWithFloat: (self.y1PreStepValue + i * self.y1PreStepValue)]];
         }
@@ -464,10 +466,51 @@
         
         self.y2PreStepValue = yMax / self.yLineCount;
         
-        for (int i = 0; i != self.yLineCount; i++) {
+        for (int i = 0; i != self.yDrawLineCount; i++) {
             
             [self.y2Array addObject:[NSNumber numberWithFloat: (self.y2PreStepValue + i * self.y2PreStepValue)]];
         }
+    }
+    else if([self.dataSourceAry count] == 1) {
+        
+        
+        AnchorItem *anchorItem = [self.dataSourceAry objectAtIndex:0];
+        
+        //! x 軸刻度
+        if (!self.xArray) {
+            
+            self.xArray = [NSMutableArray array];
+        }
+        else {
+            
+            [self.xArray removeAllObjects];
+        }
+        
+        [self.xArray addObject:[NSNumber numberWithFloat:anchorItem.xValue]];
+        
+        //! y1軸刻度
+        if (!self.y1Array) {
+            
+            self.y1Array = [NSMutableArray array];
+        }
+        else {
+            
+            [self.y1Array removeAllObjects];
+        }
+        
+        [self.y1Array addObject:[NSNumber numberWithFloat:anchorItem.y1Value]];
+        
+        //! y2軸刻度
+        if (!self.y2Array) {
+            
+            self.y2Array = [NSMutableArray array];
+        }
+        else {
+            
+            [self.y2Array removeAllObjects];
+        }
+        
+        [self.y2Array addObject:[NSNumber numberWithFloat:anchorItem.y2Value]];
     }
 }
 
