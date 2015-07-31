@@ -184,13 +184,13 @@
             endAnchorPoint2.x = xPosition;
             endAnchorPoint2.y = y2Position;
             
+            CGFloat yPattern[1]= {1};
+            CGContextSetLineDash(context, 0.0, yPattern, 0);
+            
             //! 範圍區塊內才畫
             if ((endAnchorPoint1.x >= self.originPoint.x && endAnchorPoint1.x <= self.rightBottomPoint.x) &&
                 (endAnchorPoint1.y >= self.originPoint.y && endAnchorPoint1.y <= self.rightTopPoint.y)) {
 
-                CGFloat yPattern[1]= {1};
-                CGContextSetLineDash(context, 0.0, yPattern, 0);
-                
                 [ChartCommon drawLine:context
                            startPoint:startAnchorPoint1
                              endPoint:endAnchorPoint1
@@ -200,9 +200,6 @@
             //! 範圍區塊內才畫
             if ((endAnchorPoint2.x >= self.originPoint.x && endAnchorPoint2.x <= self.rightBottomPoint.x) &&
                 (endAnchorPoint2.y >= self.originPoint.y && endAnchorPoint2.y <= self.rightTopPoint.y)) {
-                
-                CGFloat yPattern[1]= {1};
-                CGContextSetLineDash(context, 0.0, yPattern, 0);
                 
                 [ChartCommon drawLine:context
                            startPoint:startAnchorPoint2
@@ -286,6 +283,12 @@
         }
     }
 
+#pragma mark rectangle(超出軸線部分用方塊蓋掉)
+    
+    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.leftTopPoint.x, self.frame.size.height) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
+    
+    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.frame.size.width, self.rightBottomPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
+    
     //! 畫虛線
 #pragma mark 畫 Y 軸上 X 軸(虛)線
     

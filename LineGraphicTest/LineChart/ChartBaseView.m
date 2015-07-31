@@ -89,23 +89,25 @@
 -(void) updateViewWithFrame:(CGRect)frame
 {
     self.frame = frame;
-
+    _contentScroll = CGPointMake(0, 0);
+    
     _originPoint = CGPointMake(_edgeInset.left, _edgeInset.bottom);
     _leftTopPoint = CGPointMake(_edgeInset.left, self.frame.size.height - _edgeInset.top);
     _rightBottomPoint = CGPointMake(self.frame.size.width - _edgeInset.right, _edgeInset.bottom);
     _rightTopPoint = CGPointMake(self.frame.size.width - _edgeInset.right, self.frame.size.height - _edgeInset.top);
     
-    self.drawContentWidth = self.frame.size.width - (_edgeInset.left + _edgeInset.right);
-    self.drawContentHeight = self.frame.size.height - (_edgeInset.bottom + _edgeInset.top);
-    
-    self.drawContentWidth *= self.zoomScale;
-    
-    //! +1 : 最右/上多一格
-    self.xDrawLineCount = self.xLineCount;
-    self.yDrawLineCount = self.yLineCount;
+    self.drawOriginContentWidth = self.frame.size.width - (_edgeInset.left + _edgeInset.right);
+    self.drawOriginContentHeight = self.frame.size.height - (_edgeInset.bottom + _edgeInset.top);
     
     //! 僅縮放x軸
-    _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount * self.zoomScale;
+    self.drawContentWidth = self.drawOriginContentWidth * self.zoomScale;
+    self.drawContentHeight = self.drawOriginContentHeight;
+    
+    //! +1 : 最右/上多一格
+    self.xDrawLineCount = self.xLineCount; //+ 1;
+    self.yDrawLineCount = self.yLineCount; //+ 1;
+    
+    _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount;
     _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount;
     
     [self setNeedsDisplay];
@@ -124,19 +126,18 @@
     _rightBottomPoint = CGPointMake(self.frame.size.width - _edgeInset.right, _edgeInset.bottom);
     _rightTopPoint = CGPointMake(self.frame.size.width - _edgeInset.right, self.frame.size.height - _edgeInset.top);
     
-    
-    self.drawContentWidth = self.frame.size.width - (_edgeInset.left + _edgeInset.right);
-    self.drawContentHeight = self.frame.size.height - (_edgeInset.bottom + _edgeInset.top);
-    
-    self.drawContentWidth *= self.zoomScale;
-//    self.drawContentHeight *= self.zoomScale;
-    
-    //! +1 : 最右/上多一格
-    self.xDrawLineCount = self.xLineCount;
-    self.yDrawLineCount = self.yLineCount;
+    self.drawOriginContentWidth = self.frame.size.width - (_edgeInset.left + _edgeInset.right);
+    self.drawOriginContentHeight = self.frame.size.height - (_edgeInset.bottom + _edgeInset.top);
     
     //! 僅縮放x軸
-    _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount * self.zoomScale;
+    self.drawContentWidth = self.drawOriginContentWidth * self.zoomScale;
+    self.drawContentHeight = self.drawOriginContentHeight;
+    
+    //! +1 : 最右/上多一格
+    self.xDrawLineCount = self.xLineCount; //+ 1;
+    self.yDrawLineCount = self.yLineCount; //+ 1;
+    
+    _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount;
     _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount;
     
     [self setNeedsDisplay];
@@ -187,33 +188,29 @@
             }
             
             //! 位移量不超過最大高度
-            if (-_contentScroll.x > self.drawContentWidth) {
+            if (-_contentScroll.x > (self.drawContentWidth - self.drawOriginContentWidth)) {
             
-                _contentScroll.x = -self.drawContentWidth;
+                _contentScroll.x = -(self.drawContentWidth - self.drawOriginContentWidth);
             }
         }
         
-        /*
         if (self.drawContentHeight > self.frame.size.height) {
             
             _contentScroll.y += yDiffrance;
             
-            if(_contentScroll.y < 0) {
+            if(_contentScroll.y > 0) {
                 
                 _contentScroll.y = 0;
             }
             
             //! 位移量不超過最大高度
-            if (_contentScroll.y > (self.maxHeight - (self.frame.size.height - self.yPerStepSize))) {
-            
-                _contentScroll.y = (self.maxHeight - (self.frame.size.height - self.yPerStepSize));
+            if (-_contentScroll.y > (self.drawContentHeight - self.drawOriginContentHeight)) {
+                
+                _contentScroll.y = -(self.drawContentHeight - self.drawOriginContentHeight);
             }
         }
-         */
     }
      
-    
-//    [self updateViewWithFrame:self.frame];
     [self setNeedsDisplay];
 }
 
@@ -225,20 +222,16 @@
         
         self.zoomScale = recognizer.scale;
         
-        if(self.zoomScale < 1){
+        if(self.zoomScale <= 1){
             
             self.zoomScale = 1;
         }
-        else if(self.zoomScale > 1.5) {
+        else if(self.zoomScale >= 1.5) {
         
             self.zoomScale = 1.5;
         }
-        else{
-        
-            _contentScroll.x = 0;
 
-            [self updateViewWithFrame:self.frame];
-        }
+        [self updateViewWithFrame:self.frame];
     }
 }
 

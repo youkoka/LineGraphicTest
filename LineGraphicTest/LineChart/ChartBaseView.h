@@ -61,6 +61,12 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 @property CGFloat y1PreStepValue;
 @property CGFloat y2PreStepValue;
 
+//! 線圖繪圖區塊原始寬度
+@property CGFloat drawOriginContentWidth;
+
+//! 線圖繪圖區塊原始高度
+@property CGFloat drawOriginContentHeight;
+
 //! 線圖繪圖區塊寬度
 @property CGFloat drawContentWidth;
 
