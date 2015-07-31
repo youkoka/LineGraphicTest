@@ -22,7 +22,7 @@
 -(void) dealloc
 {
     OBJC_RELEASE(self.dicDataSource);
-    
+    OBJC_RELEASE(self.sLabel);
     [super dealloc];
 }
 
@@ -33,6 +33,7 @@
         self.xValue = 0.0f;
         self.y1Value = 0.0f;
         self.y2Value = 0.0f;
+        self.sLabel = @"";
     }
     
     return self;

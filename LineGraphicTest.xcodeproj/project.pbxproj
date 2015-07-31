@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C57481131B6B0C3D004806D2 /* MarkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57481121B6B0C3D004806D2 /* MarkerView.m */; };
 		C58570C01B0F1ECB0057C10B /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C58570BF1B0F1ECB0057C10B /* AppIcon.png */; };
 		C594132B1B427F1700DEBADA /* AnchorView.m in Sources */ = {isa = PBXBuildFile; fileRef = C59413221B427F1700DEBADA /* AnchorView.m */; };
 		C594132C1B427F1700DEBADA /* ChartCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = C59413251B427F1700DEBADA /* ChartCommon.m */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C57481111B6B0C3D004806D2 /* MarkerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkerView.h; sourceTree = "<group>"; };
+		C57481121B6B0C3D004806D2 /* MarkerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkerView.m; sourceTree = "<group>"; };
 		C58570BF1B0F1ECB0057C10B /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
 		C59413211B427F1700DEBADA /* AnchorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnchorView.h; sourceTree = "<group>"; };
 		C59413221B427F1700DEBADA /* AnchorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnchorView.m; sourceTree = "<group>"; };
@@ -95,6 +98,8 @@
 				C5B6EEF81B60CA6600753C8D /* ChartBaseView.m */,
 				C59413291B427F1700DEBADA /* LineChartView.h */,
 				C594132A1B427F1700DEBADA /* LineChartView.m */,
+				C57481111B6B0C3D004806D2 /* MarkerView.h */,
+				C57481121B6B0C3D004806D2 /* MarkerView.m */,
 			);
 			path = LineChart;
 			sourceTree = "<group>";
@@ -285,6 +290,7 @@
 				C594132B1B427F1700DEBADA /* AnchorView.m in Sources */,
 				C594132C1B427F1700DEBADA /* ChartCommon.m in Sources */,
 				C5E0911A1AC55B5800D404C6 /* AppDelegate.m in Sources */,
+				C57481131B6B0C3D004806D2 /* MarkerView.m in Sources */,
 				C594132E1B427F1700DEBADA /* LineChartView.m in Sources */,
 				C5B6EEF91B60CA6600753C8D /* ChartBaseView.m in Sources */,
 				C5E091171AC55B5800D404C6 /* main.m in Sources */,

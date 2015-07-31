@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSMutableArray *y1Array;
 @property (nonatomic, strong) NSMutableArray *y2Array;
 
-@property (nonatomic, strong) UIImageView *marker;
+
 
 //! 產生 X/Y軸刻度
 -(void) buildAxisStepByDataSource;
@@ -34,6 +34,7 @@
     OBJC_RELEASE(self.xArray);
     OBJC_RELEASE(self.y1Array);
     OBJC_RELEASE(self.y2Array);
+   
     
     [super dealloc];
 }
@@ -110,7 +111,7 @@
         
         startAnchorPoint1.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
         startAnchorPoint1.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y1Value) / y1PerStepVal)) + self.contentScroll.y;
-        
+        /*
         //! 畫點, 範圍區塊內才畫
         if ((startAnchorPoint1.x >= self.originPoint.x && startAnchorPoint1.x < (self.rightBottomPoint.x + self.edgeInset.right)) &&
             (startAnchorPoint1.y >= self.originPoint.y && startAnchorPoint1.y < (self.rightTopPoint.y + self.edgeInset.top))) {
@@ -133,12 +134,13 @@
                 [self addSubview:anchor];
             }
         }
-        
+        */
         float y2PerStepVal = [[self.y2Array objectAtIndex:0] floatValue];
         
         startAnchorPoint2.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
         startAnchorPoint2.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y2Value) / y2PerStepVal)) + self.contentScroll.y;
 
+        /*
         //! 畫點, 範圍區塊內才畫
         if ((startAnchorPoint2.x >= self.originPoint.x && startAnchorPoint2.x < (self.rightBottomPoint.x + self.edgeInset.right)) &&
             (startAnchorPoint2.y >= self.originPoint.y && startAnchorPoint2.y < (self.rightTopPoint.y + self.edgeInset.top))) {
@@ -161,7 +163,7 @@
                 [self addSubview:anchor];
             }
         }
-        
+        */
         //! 畫點對點連接線及指示線
         if (i + 1 < [self.dataSourceAry count]) {
             
@@ -217,20 +219,57 @@
                     
                     if (fabs(startAnchorPoint1.x - self.tapLocation.x) <= fabs(endAnchorPoint1.x - self.tapLocation.x) ) {
                         
-                        tipPoint = startAnchorPoint1;
+                        if (![startItem.sLabel isEqualToString:@""]) {
+                            
+                            self.markerView.title = startItem.sLabel;
+                        }
+                        else {
+                            
+                            self.markerView.title = [NSString stringWithFormat:@"%.4f", startItem.xValue];
+                        }
+
+                        if (fabs(self.tapLocation.y - startAnchorPoint1.y) <= fabs(self.tapLocation.y - startAnchorPoint2.y)) {
+                            
+                            tipPoint = startAnchorPoint1;
+                            
+                            self.markerView.message = [NSString stringWithFormat:@"%.4f", startItem.y1Value];
+                        }
+                        else {
+                        
+                            tipPoint = startAnchorPoint2;
+                            
+                            self.markerView.message = [NSString stringWithFormat:@"%.4f", startItem.y2Value];
+                        }
                     }
                     else {
                     
-                        tipPoint = endAnchorPoint1;
+                        if (![startItem.sLabel isEqualToString:@""]) {
+                            
+                            self.markerView.title = endItem.sLabel;
+                        }
+                        else {
+                            
+                            self.markerView.title = [NSString stringWithFormat:@"%.4f", endItem.xValue];
+                        }
+
+                        if (fabs(self.tapLocation.y - endAnchorPoint1.y) <= fabs(self.tapLocation.y - endAnchorPoint2.y)) {
+                            
+                            tipPoint = endAnchorPoint1;
+
+                            self.markerView.message = [NSString stringWithFormat:@"%.4f", endItem.y1Value];
+                        }
+                        else {
+                            
+                            tipPoint = endAnchorPoint2;
+                            
+                            self.markerView.message = [NSString stringWithFormat:@"%.4f", endItem.y2Value];
+                        }
                     }
                     
                     CGFloat yPattern[1]= {1};
                     CGContextSetLineDash(context, 0.0, yPattern, 0);
                     
-                    UIImageView *marker = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
-                    marker.frame = CGRectMake(tipPoint.x, tipPoint.y, 50, 30);
-                    [self addSubview:marker];
-
+                    self.markerView.center = CGPointMake(tipPoint.x, tipPoint.y);
                     //! 橫線
                     [ChartCommon drawLine:context
                                startPoint:CGPointMake(self.originPoint.x, tipPoint.y)
@@ -247,14 +286,6 @@
         }
     }
 
-    /*
-#pragma mark rectangle(超出軸線部分用方塊蓋掉)
-    
-    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.originPoint.x, self.originPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
-
-    [ChartCommon drawRect:context rect:CGRectMake(self.originPoint.x, self.originPoint.y, self.rightBottomPoint.x, self.rightBottomPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
-    
- */
     //! 畫虛線
 #pragma mark 畫 Y 軸上 X 軸(虛)線
     
@@ -296,7 +327,6 @@
                             lineColor:[UIColor blackColor] width:0.1f];
             }
             
-            
             //! 顯示文字
             NSString *valStr = [NSString stringWithFormat:@"%.2lf", [self.y1Array[i] floatValue]];
             CGSize size = [valStr sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12]];
@@ -331,7 +361,21 @@
                             lineColor:[UIColor blackColor] width:0.1f];
             }
             //! 顯示文字
-            NSString *valStr = [NSString stringWithFormat:@"%.0lf", [self.xArray[i] floatValue]]; //四舍五入保留2位
+            //! 顯示文字
+            NSString *valStr = @"";
+            
+            if ([self.lineLabelAry count] > 0) {
+                
+                if (i < [self.lineLabelAry count]) {
+                    
+                    valStr = self.lineLabelAry[i];
+                }
+            }
+            else {
+                
+                valStr = [NSString stringWithFormat:@"%.2lf", [self.xArray[i] floatValue]];
+            }
+
             CGSize size = [valStr sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12]];
             [[UIColor colorWithCGColor:[UIColor blackColor].CGColor] set];
             CGContextSelectFont(context, "Helvetica", 12, kCGEncodingMacRoman);
@@ -350,27 +394,6 @@
 
     //! 左Y軸
     [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.leftTopPoint lineColor:[UIColor blackColor] width:0.5f];
-    
-    /*
-    if (self.isMultipleY == YES) {
-        
-        CGPoint rightYBottomPoint;
-        CGPoint rightYTopPoint;
-        
-        if (self.rightBottomPoint.x > self.maxWidth) {
-            
-            rightYBottomPoint = CGPointMake(self.maxWidth, self.rightBottomPoint.y);
-            rightYTopPoint = CGPointMake(self.maxWidth, 0);
-        }
-        else {
-            
-            rightYBottomPoint = CGPointMake(self.rightBottomPoint.x - 5, self.rightBottomPoint.y);
-            rightYTopPoint = CGPointMake(self.rightBottomPoint.x - 5, 0);
-        }
-        //! 右Y軸
-        [ChartCommon drawLine:context startPoint:rightYBottomPoint endPoint:rightYTopPoint lineColor:[UIColor blackColor] width:0.5f];
-    }
-     */
 }
 
 #pragma mark - Custom methods

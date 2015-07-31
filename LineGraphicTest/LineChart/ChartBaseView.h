@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
+#import "MarkerView.h"
 
 //! (10 pixel/rate)
 #define PixelOfRate     10
@@ -120,6 +121,11 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 
 //! 資料
 @property (nonatomic, strong) NSArray *dataSourceAry;
+
+//! x軸顯示文字
+@property (nonatomic, strong) NSArray *lineLabelAry;
+
+@property (nonatomic, strong) MarkerView *markerView;
 
 //! 依據畫面大小更新相關點的資訊
 -(void) updateAndRestViewWithFrame:(CGRect)frame;

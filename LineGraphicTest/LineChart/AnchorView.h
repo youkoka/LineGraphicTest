@@ -20,6 +20,7 @@
 @property CGFloat xValue;
 @property CGFloat y1Value;
 @property CGFloat y2Value;
+@property(nonatomic, strong) NSString *sLabel;
 
 //! 存放資料
 @property (nonatomic, strong) NSDictionary *dicDataSource;

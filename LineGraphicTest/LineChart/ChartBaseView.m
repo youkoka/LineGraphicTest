@@ -19,6 +19,8 @@
 -(void) dealloc
 {
     OBJC_RELEASE(self.dataSourceAry);
+    OBJC_RELEASE(self.markerView);
+    OBJC_RELEASE(self.lineLabelAry);
     
     [super dealloc];
 }
@@ -58,6 +60,14 @@
         self.zoomScale = 1;
         
         self.dataSourceAry = [NSArray array];
+        self.lineLabelAry = [NSArray array];
+        
+        self.markerView = [[[MarkerView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
+        [self.markerView setFrame:CGRectMake(0, 0, 60, 40)];
+        self.markerView.hidden = YES;
+        [self addSubview:self.markerView];
+        
+        [self.markerView setTransform:CGAffineTransformMakeScale(1, -1)];
         
         UILongPressGestureRecognizer *longGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap:)];
         [self addGestureRecognizer:longGestureRecognizer];
@@ -108,11 +118,15 @@
     
     self.isShowTipLine = YES;
     
+    self.markerView.hidden = NO;
+    
     if(recongizer.state == UIGestureRecognizerStateEnded) {
         
 //        if (self.showTipFlag == YES) {
         
             self.isShowTipLine = NO;
+        
+        self.markerView.hidden = YES;
 //        }
     }
     
