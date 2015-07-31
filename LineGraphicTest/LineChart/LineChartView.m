@@ -44,8 +44,6 @@
 {
     if ( (self = [super initWithFrame:frame]) ) {
         
-        [self setBackgroundColor:[UIColor greenColor]];
-        
         self.anchorAry = [NSMutableArray array];
         self.xArray = [NSMutableArray array];
         self.y1Array = [NSMutableArray array];
@@ -86,7 +84,7 @@
     CGPoint startAnchorPoint2 = self.originPoint;
     CGPoint endAnchorPoint2 = self.originPoint;
     
-//    NSInteger anchorRadius = 0.5;
+    NSInteger anchorRadius = 1;
 
     if (self.anchorAry != nil) {
         
@@ -111,10 +109,11 @@
         
         startAnchorPoint1.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
         startAnchorPoint1.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y1Value) / y1PerStepVal)) + self.contentScroll.y;
-        /*
+
         //! 畫點, 範圍區塊內才畫
         if ((startAnchorPoint1.x >= self.originPoint.x && startAnchorPoint1.x < (self.rightBottomPoint.x + self.edgeInset.right)) &&
-            (startAnchorPoint1.y >= self.originPoint.y && startAnchorPoint1.y < (self.rightTopPoint.y + self.edgeInset.top))) {
+            (startAnchorPoint1.y >= self.originPoint.y && startAnchorPoint1.y < (self.rightTopPoint.y + self.edgeInset.top)) &&
+            self.isShowAnchorPoint == YES ) {
         
             AnchorView *anchor = nil;
             
@@ -128,22 +127,22 @@
                 anchor.center = CGPointMake(startAnchorPoint1.x, startAnchorPoint1.y);
                 anchor.anchorDelegate = self;
                 anchor.dicDataSource = startItem.dicDataSource;
-                anchor.anchorColor = [UIColor redColor];
+                anchor.anchorColor = [UIColor blackColor];
                 [self.anchorAry addObject:anchor];
                 
                 [self addSubview:anchor];
             }
         }
-        */
+
         float y2PerStepVal = [[self.y2Array objectAtIndex:0] floatValue];
         
         startAnchorPoint2.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
         startAnchorPoint2.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y2Value) / y2PerStepVal)) + self.contentScroll.y;
 
-        /*
         //! 畫點, 範圍區塊內才畫
         if ((startAnchorPoint2.x >= self.originPoint.x && startAnchorPoint2.x < (self.rightBottomPoint.x + self.edgeInset.right)) &&
-            (startAnchorPoint2.y >= self.originPoint.y && startAnchorPoint2.y < (self.rightTopPoint.y + self.edgeInset.top))) {
+            (startAnchorPoint2.y >= self.originPoint.y && startAnchorPoint2.y < (self.rightTopPoint.y + self.edgeInset.top)) &&
+            self.isShowAnchorPoint == YES ) {
             
             AnchorView *anchor = nil;
             
@@ -157,13 +156,13 @@
                 anchor.center = CGPointMake(startAnchorPoint2.x, startAnchorPoint2.y);
                 anchor.anchorDelegate = self;
                 anchor.dicDataSource = startItem.dicDataSource;
-                anchor.anchorColor = [UIColor orangeColor];
+                anchor.anchorColor = [UIColor blackColor];
                 [self.anchorAry addObject:anchor];
                 
                 [self addSubview:anchor];
             }
         }
-        */
+        
         //! 畫點對點連接線及指示線
         if (i + 1 < [self.dataSourceAry count]) {
             
@@ -271,13 +270,13 @@
                     [ChartCommon drawLine:context
                                startPoint:CGPointMake(self.originPoint.x, tipPoint.y)
                                  endPoint:CGPointMake(self.rightBottomPoint.x, tipPoint.y)
-                                lineColor:[UIColor grayColor] width:1.0f];
+                                lineColor:self.xLineColor width:1.0f];
                     
                     //! 豎線
                     [ChartCommon drawLine:context
                                startPoint:CGPointMake(tipPoint.x, self.rightTopPoint.y)
                                  endPoint:CGPointMake(tipPoint.x, self.originPoint.y)
-                                lineColor:[UIColor grayColor] width:1.0f];
+                                lineColor:self.yLineColor width:1.0f];
                 }
             }
         }
@@ -285,9 +284,9 @@
 
 #pragma mark rectangle(超出軸線部分用方塊蓋掉)
     
-    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.leftTopPoint.x, self.frame.size.height) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
+    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.leftTopPoint.x, self.frame.size.height) lineColor:[UIColor clearColor] fillColor:[UIColor whiteColor]];
     
-    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.frame.size.width, self.rightBottomPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor greenColor]];
+    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.frame.size.width, self.rightBottomPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor whiteColor]];
     
     //! 畫虛線
 #pragma mark 畫 Y 軸上 X 軸(虛)線
@@ -318,7 +317,7 @@
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(self.originPoint.x, yPosition)
                              endPoint:CGPointMake(self.originPoint.x + 5, yPosition)
-                            lineColor:[UIColor blackColor] width:0.1f];
+                            lineColor:self.xLineColor width:0.1f];
                 
             }
             
@@ -327,13 +326,13 @@
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(self.originPoint.x, yPosition)
                              endPoint:CGPointMake(self.rightBottomPoint.x, yPosition)
-                            lineColor:[UIColor blackColor] width:0.1f];
+                            lineColor:self.xLineColor width:0.1f];
             }
             
             //! 顯示文字
             NSString *valStr = [NSString stringWithFormat:@"%.2lf", [self.y1Array[i] floatValue]];
             CGSize size = [valStr sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12]];
-            [[UIColor colorWithCGColor:[UIColor blackColor].CGColor] set];
+            [[UIColor colorWithCGColor:self.xLineColor.CGColor] set];
             CGContextSelectFont(context, "Helvetica", 12, kCGEncodingMacRoman);
             const char *str = [valStr cStringUsingEncoding:NSUTF8StringEncoding];
             CGContextShowTextAtPoint(context, 5, yPosition - (size.height / 2 - size.height / 4), str, strlen(str));
@@ -354,14 +353,14 @@
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(xPosition, self.originPoint.y)
                              endPoint:CGPointMake(xPosition, self.originPoint.y - 5)
-                            lineColor:[UIColor blackColor] width:0.1f];
+                            lineColor:self.yLineColor width:0.1f];
             }
             else {
                 
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(xPosition, self.originPoint.y)
                              endPoint:CGPointMake(xPosition, self.leftTopPoint.y)
-                            lineColor:[UIColor blackColor] width:0.1f];
+                            lineColor:self.yLineColor width:0.1f];
             }
             //! 顯示文字
             //! 顯示文字
@@ -380,7 +379,7 @@
             }
 
             CGSize size = [valStr sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12]];
-            [[UIColor colorWithCGColor:[UIColor blackColor].CGColor] set];
+            [[UIColor colorWithCGColor:self.yLineColor.CGColor] set];
             CGContextSelectFont(context, "Helvetica", 12, kCGEncodingMacRoman);
             const char *str = [valStr cStringUsingEncoding:NSUTF8StringEncoding];
             CGContextShowTextAtPoint(context, xPosition - (size.width / 2 + size.width / 4), self.originPoint.y - 15, str, strlen(str));
@@ -393,10 +392,10 @@
     CGContextSetLineDash(context,0,normal,0); //! 畫實線
 
     //! X軸
-    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.rightBottomPoint lineColor:[UIColor blackColor] width:0.5f];
+    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.rightBottomPoint lineColor:self.xLineColor width:0.5f];
 
     //! 左Y軸
-    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.leftTopPoint lineColor:[UIColor blackColor] width:0.5f];
+    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.leftTopPoint lineColor:self.yLineColor width:0.5f];
 }
 
 #pragma mark - Custom methods

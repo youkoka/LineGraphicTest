@@ -19,6 +19,8 @@
     OBJC_RELEASE(self.dataSourceAry);
     OBJC_RELEASE(self.markerView);
     OBJC_RELEASE(self.lineLabelAry);
+    OBJC_RELEASE(self.xLineColor);
+    OBJC_RELEASE(self.yLineColor);
     
     [super dealloc];
 }
@@ -42,20 +44,16 @@
         _isHideTipLine = YES;
         self.isEnableUserAction = NO;
         self.isScaleToView = NO;
-        
-        self.xStepScale = 3;
-        self.yStepScale = 3;
-        
-        self.minXValue = 0.0f;
-        self.maxXValue = 0.0f;
-        
-        self.minXValue = 0.0f;
-        self.maxYValue = 0.0f;
+        self.isShowAnchorPoint = NO;
         
         self.xLineCount = 5;
         self.yLineCount = 5;
         
         self.zoomScale = 1;
+        
+        self.backgroundColor = [UIColor clearColor];
+        self.xLineColor = [UIColor blackColor];
+        self.yLineColor = [UIColor blackColor];
         
         self.dataSourceAry = [NSArray array];
         self.lineLabelAry = [NSArray array];

@@ -52,12 +52,15 @@
                              self.view.frame.size.width - 5 - 5,
                              300);
     
-    self.lineChartView = [[LineChartView alloc] initWithFrame:rect];
+    self.lineChartView = [[[LineChartView alloc] initWithFrame:rect] autorelease];
+    self.lineChartView.drawLineTypeOfY = LineDrawTypeNone;
+    self.lineChartView.drawLineTypeOfX = LineDrawTypeDottedLine;
     self.lineChartView.isEnableUserAction = YES;
     self.lineChartView.isScaleToView = YES;
     self.lineChartView.isShowTipLine = YES;
-    self.lineChartView.xLineCount = 10;
-    self.lineChartView.yLineCount = 10;
+    self.lineChartView.isShowAnchorPoint = YES;
+    self.lineChartView.xLineCount = 5;
+    self.lineChartView.yLineCount = 5;
     self.lineChartView.lineLabelAry = [NSArray arrayWithObjects:@"1/1", @"2/1", @"3/1", @"4/1", @"5/1", nil];
     [self.lineChartView setDataSource:self.dataSourceAry];
     [self.view addSubview:self.lineChartView];

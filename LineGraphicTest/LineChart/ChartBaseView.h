@@ -10,13 +10,6 @@
 #import "Constants.h"
 #import "MarkerView.h"
 
-//! (10 pixel/rate)
-#define PixelOfRate     10
-
-//! 軸線位移值
-#define X_AxisOffset    40
-#define Y_AxisOffset    20
-
 typedef NS_ENUM(NSInteger, LineDrawType)
 {
     //! 無線條
@@ -45,14 +38,6 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 //! Y 軸虛線
 //! default value : LineDrawTypeNone
 @property LineDrawType drawLineTypeOfY;
-
-//! default value(rate) : 3
-//! 1 rate value = 10 pixel
-@property NSInteger xStepScale;
-
-//! default value(rate) : 3
-//! 1 rate value = 10 pixel
-@property NSInteger yStepScale;
 
 //! X 軸刻度間距值
 @property CGFloat xPreStepValue;
@@ -119,14 +104,6 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 //! 縮放比例大小(預設值:1)
 @property CGFloat zoomScale;
 
-//! 最小/大 X值
-@property CGFloat minXValue;
-@property CGFloat maxXValue;
-
-//! 最小/大 Y值
-@property CGFloat minYValue;
-@property CGFloat maxYValue;
-
 //! 資料
 @property (nonatomic, strong) NSArray *dataSourceAry;
 
@@ -134,6 +111,15 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 @property (nonatomic, strong) NSArray *lineLabelAry;
 
 @property (nonatomic, strong) MarkerView *markerView;
+
+//! x軸顏色
+@property (nonatomic, strong) UIColor *xLineColor;
+
+//! y 軸顏色
+@property (nonatomic, strong) UIColor *yLineColor;
+
+//! 是否顯示座標點
+@property BOOL isShowAnchorPoint;
 
 //! 依據畫面大小更新相關點的資訊
 -(void) updateViewWithFrame:(CGRect)frame;
