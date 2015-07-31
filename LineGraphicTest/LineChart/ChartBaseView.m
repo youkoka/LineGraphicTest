@@ -10,8 +10,6 @@
 
 @interface ChartBaseView()
 
-@property BOOL showTipFlag;
-
 @end
 
 @implementation ChartBaseView
@@ -40,8 +38,7 @@
         self.drawLineTypeOfX = LineDrawTypeDottedLine;
         self.drawLineTypeOfY = LineDrawTypeDottedLine;
         self.isMultipleY = NO;
-        self.showTipFlag = NO;
-        self.isShowTipLine = NO;
+        self.isShowTipLine = _isHideTipLine = NO;
         self.isEnableUserAction = NO;
         self.isScaleToView = NO;
         
@@ -148,18 +145,22 @@
 {
     _tapLocation = [recongizer locationInView:self];
     
-    self.isShowTipLine = YES;
+    if (self.isShowTipLine == YES) {
     
-    self.markerView.hidden = NO;
-    
-    if(recongizer.state == UIGestureRecognizerStateEnded) {
+        _isHideTipLine = NO;
         
-        self.isShowTipLine = NO;
+        self.markerView.hidden = NO;
         
-        self.markerView.hidden = YES;
+        if(recongizer.state == UIGestureRecognizerStateEnded) {
+            
+            _isHideTipLine = YES;
+            
+            self.markerView.hidden = YES;
+        }
+
+        [self setNeedsDisplay];
+
     }
-    
-    [self setNeedsDisplay];
 }
 
 -(void) handlePan:(UIPanGestureRecognizer *)recognizer
@@ -216,8 +217,6 @@
 
 - (void) handlePinch:(UIPinchGestureRecognizer*) recognizer
 {
-    //    recognizer.view.transform = CGAffineTransformScale(recognizer.view.transform, recognizer.scale, recognizer.scale);
-    
     if (self.isEnableUserAction == YES) {
         
         self.zoomScale = recognizer.scale;

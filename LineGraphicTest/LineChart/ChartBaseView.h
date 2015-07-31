@@ -97,6 +97,8 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 //! 是否顯示提示框
 @property BOOL isShowTipLine;
 
+@property(readonly) BOOL isHideTipLine;
+
 //! 縮放至螢幕大小
 @property BOOL isScaleToView;
 

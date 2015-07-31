@@ -207,7 +207,7 @@
                             lineColor:[UIColor redColor] width:1.0f];
             }
 
-            if(self.isShowTipLine == YES) {
+            if(self.isHideTipLine == NO) {
                 
                 CGPoint tipPoint = CGPointMake(0, 0);
                 

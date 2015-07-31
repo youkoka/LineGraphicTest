@@ -55,7 +55,7 @@
     self.lineChartView = [[LineChartView alloc] initWithFrame:rect];
     self.lineChartView.isEnableUserAction = YES;
     self.lineChartView.isScaleToView = YES;
-//    self.lineChartView.isShowTipLine = YES;
+    self.lineChartView.isShowTipLine = YES;
     self.lineChartView.xLineCount = 5;
     self.lineChartView.yLineCount = 5;
 //    self.lineChartView.lineLabelAry = [NSArray arrayWithObjects:@"1/1", @"2/1", @"3/1", @"4/1", @"5/1", nil];
