@@ -128,6 +128,9 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 @property (nonatomic, strong) MarkerView *markerView;
 
 //! 依據畫面大小更新相關點的資訊
--(void) updateAndRestViewWithFrame:(CGRect)frame;
+-(void) updateViewWithFrame:(CGRect)frame;
+
+//! 依據畫面大小重設相關點的資訊
+-(void) resetViewWithFrame:(CGRect)frame;
 
 @end

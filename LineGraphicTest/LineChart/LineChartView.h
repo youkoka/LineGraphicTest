@@ -16,6 +16,6 @@
 
 -(void) setDataSource:(NSArray *) dataSource;
 
--(void) updateViewWithFrame:(CGRect) frame;
+-(void) resetViewByOrientationWithFrame:(CGRect) frame;
 
 @end

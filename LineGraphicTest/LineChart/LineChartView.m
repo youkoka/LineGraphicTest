@@ -59,16 +59,16 @@
 {
     self.dataSourceAry = dataSource;
     
-    [self updateAndRestViewWithFrame:self.frame];
+    [self updateViewWithFrame:self.frame];
     
     [self buildAxisStepByDataSource];
 }
 
--(void) updateViewWithFrame:(CGRect) frame
+-(void) resetViewByOrientationWithFrame:(CGRect) frame
 {
     self.frame = frame;
     
-    [self updateAndRestViewWithFrame:self.frame];
+    [self resetViewWithFrame:self.frame];
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -86,7 +86,7 @@
     CGPoint startAnchorPoint2 = self.originPoint;
     CGPoint endAnchorPoint2 = self.originPoint;
     
-    NSInteger anchorRadius = 0.5;
+//    NSInteger anchorRadius = 0.5;
 
     if (self.anchorAry != nil) {
         

@@ -43,7 +43,7 @@
         item.xValue = i + 1;
         item.y1Value = 1 + rand() % 5 + 10;
         item.y2Value = 1 + rand() % 5;
-        item.sLabel = @"12:20";
+//        item.sLabel = @"12:20";
         item.dicDataSource = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%f,%f", item.xValue, item.y1Value] forKey:@"value"];
         [self.dataSourceAry addObject:item];
     }
@@ -54,11 +54,11 @@
     
     self.lineChartView = [[LineChartView alloc] initWithFrame:rect];
     self.lineChartView.isEnableUserAction = YES;
-    self.lineChartView.isScaleToView = NO;
+    self.lineChartView.isScaleToView = YES;
     self.lineChartView.isShowTipLine = YES;
     self.lineChartView.xLineCount = 5;
     self.lineChartView.yLineCount = 5;
-    self.lineChartView.lineLabelAry = [NSArray arrayWithObjects:@"1/1", @"2/1", @"3/1", @"4/1", @"5/1", nil];
+//    self.lineChartView.lineLabelAry = [NSArray arrayWithObjects:@"1/1", @"2/1", @"3/1", @"4/1", @"5/1", nil];
     [self.lineChartView setDataSource:self.dataSourceAry];
     [self.view addSubview:self.lineChartView];
     
@@ -91,7 +91,7 @@
             break;
     }
     
-    [self.lineChartView updateViewWithFrame:rect];
+    [self.lineChartView resetViewByOrientationWithFrame:rect];
 
     return YES;
 }

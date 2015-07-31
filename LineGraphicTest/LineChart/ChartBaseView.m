@@ -86,7 +86,7 @@
 }
 
 //! 依據畫面大小更新相關點的資訊
--(void) updateAndRestViewWithFrame:(CGRect)frame
+-(void) updateViewWithFrame:(CGRect)frame
 {
     self.frame = frame;
 
@@ -94,27 +94,58 @@
     _leftTopPoint = CGPointMake(_edgeInset.left, self.frame.size.height - _edgeInset.top);
     _rightBottomPoint = CGPointMake(self.frame.size.width - _edgeInset.right, _edgeInset.bottom);
     _rightTopPoint = CGPointMake(self.frame.size.width - _edgeInset.right, self.frame.size.height - _edgeInset.top);
-    _contentScroll = CGPointMake(0, 0);
     
     self.drawContentWidth = self.frame.size.width - (_edgeInset.left + _edgeInset.right);
     self.drawContentHeight = self.frame.size.height - (_edgeInset.bottom + _edgeInset.top);
+    
+    self.drawContentWidth *= self.zoomScale;
     
     //! +1 : 最右/上多一格
     self.xDrawLineCount = self.xLineCount;
     self.yDrawLineCount = self.yLineCount;
     
+    //! 僅縮放x軸
     _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount * self.zoomScale;
-    _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount  * self.zoomScale;
+    _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount;
     
     [self setNeedsDisplay];
 }
 
+//! 依據畫面大小重設相關點的資訊
+-(void) resetViewWithFrame:(CGRect)frame
+{
+    self.frame = frame;
+    
+    self.zoomScale = 1;
+    _contentScroll = CGPointMake(0, 0);
+    
+    _originPoint = CGPointMake(_edgeInset.left, _edgeInset.bottom);
+    _leftTopPoint = CGPointMake(_edgeInset.left, self.frame.size.height - _edgeInset.top);
+    _rightBottomPoint = CGPointMake(self.frame.size.width - _edgeInset.right, _edgeInset.bottom);
+    _rightTopPoint = CGPointMake(self.frame.size.width - _edgeInset.right, self.frame.size.height - _edgeInset.top);
+    
+    
+    self.drawContentWidth = self.frame.size.width - (_edgeInset.left + _edgeInset.right);
+    self.drawContentHeight = self.frame.size.height - (_edgeInset.bottom + _edgeInset.top);
+    
+    self.drawContentWidth *= self.zoomScale;
+//    self.drawContentHeight *= self.zoomScale;
+    
+    //! +1 : 最右/上多一格
+    self.xDrawLineCount = self.xLineCount;
+    self.yDrawLineCount = self.yLineCount;
+    
+    //! 僅縮放x軸
+    _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount * self.zoomScale;
+    _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount;
+    
+    [self setNeedsDisplay];
+
+}
 #pragma mark - UIGestureRecognizer event
 -(void) handleLongTap:(UIGestureRecognizer *) recongizer
 {
     _tapLocation = [recongizer locationInView:self];
-
-//    self.isShowTipLine = self.showTipFlag ? YES : NO;
     
     self.isShowTipLine = YES;
     
@@ -122,12 +153,9 @@
     
     if(recongizer.state == UIGestureRecognizerStateEnded) {
         
-//        if (self.showTipFlag == YES) {
-        
-            self.isShowTipLine = NO;
+        self.isShowTipLine = NO;
         
         self.markerView.hidden = YES;
-//        }
     }
     
     [self setNeedsDisplay];
@@ -148,8 +176,8 @@
     _previousLocation = [recognizer locationInView:self];
     
     if (self.isEnableUserAction == YES) {
-        /*
-        if (self.maxWidth > self.frame.size.width) {
+        
+        if (self.drawContentWidth > self.frame.size.width) {
             
             _contentScroll.x += xDiffrance;
             
@@ -159,13 +187,14 @@
             }
             
             //! 位移量不超過最大高度
-            if (-_contentScroll.x > (self.maxWidth - (self.frame.size.width - self.xPerStepSize))) {
-                
-                _contentScroll.x = -(self.maxWidth - (self.frame.size.width - self.xPerStepSize));
+            if (-_contentScroll.x > self.drawContentWidth) {
+            
+                _contentScroll.x = -self.drawContentWidth;
             }
         }
         
-        if (self.maxHeight > self.frame.size.height) {
+        /*
+        if (self.drawContentHeight > self.frame.size.height) {
             
             _contentScroll.y += yDiffrance;
             
@@ -176,13 +205,15 @@
             
             //! 位移量不超過最大高度
             if (_contentScroll.y > (self.maxHeight - (self.frame.size.height - self.yPerStepSize))) {
-                
+            
                 _contentScroll.y = (self.maxHeight - (self.frame.size.height - self.yPerStepSize));
             }
         }
          */
     }
+     
     
+//    [self updateViewWithFrame:self.frame];
     [self setNeedsDisplay];
 }
 
@@ -192,15 +223,21 @@
     
     if (self.isEnableUserAction == YES) {
         
-        float value = self.xPerStepWidth * recognizer.scale;
+        self.zoomScale = recognizer.scale;
         
-        if (value > 15 && value <= 60) {
+        if(self.zoomScale < 1){
             
+            self.zoomScale = 1;
+        }
+        else if(self.zoomScale > 1.5) {
+        
+            self.zoomScale = 1.5;
+        }
+        else{
+        
             _contentScroll.x = 0;
-            
-            _xPerStepWidth *= recognizer.scale;
 
-            [self updateAndRestViewWithFrame:self.frame];
+            [self updateViewWithFrame:self.frame];
         }
     }
 }
