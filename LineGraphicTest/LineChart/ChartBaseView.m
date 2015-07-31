@@ -38,7 +38,8 @@
         self.drawLineTypeOfX = LineDrawTypeDottedLine;
         self.drawLineTypeOfY = LineDrawTypeDottedLine;
         self.isMultipleY = NO;
-        self.isShowTipLine = _isHideTipLine = NO;
+        self.isShowTipLine = NO;
+        _isHideTipLine = YES;
         self.isEnableUserAction = NO;
         self.isScaleToView = NO;
         
@@ -159,7 +160,6 @@
         }
 
         [self setNeedsDisplay];
-
     }
 }
 
