@@ -18,8 +18,6 @@
 @property (nonatomic, strong) NSMutableArray *y1Array;
 @property (nonatomic, strong) NSMutableArray *y2Array;
 
-
-
 //! 產生 X/Y軸刻度
 -(void) buildAxisStepByDataSource;
 
@@ -84,8 +82,10 @@
     CGPoint startAnchorPoint2 = self.originPoint;
     CGPoint endAnchorPoint2 = self.originPoint;
     
-    NSInteger anchorRadius = 1;
+    NSInteger anchorRadius = 0;
 
+    BOOL hadDrawTipLine = false;
+    
     if (self.anchorAry != nil) {
         
         for (AnchorView *anchor in self.anchorAry) {
@@ -206,7 +206,7 @@
                             lineColor:[UIColor redColor] width:1.0f];
             }
 
-            if(self.isHideTipLine == NO) {
+            if(self.isHideTipLine == NO && hadDrawTipLine == false) {
                 
                 CGPoint tipPoint = CGPointMake(0, 0);
                 
@@ -265,7 +265,7 @@
                     CGFloat yPattern[1]= {1};
                     CGContextSetLineDash(context, 0.0, yPattern, 0);
                     
-                    self.markerView.center = CGPointMake(tipPoint.x, tipPoint.y);
+                    self.markerView.center = CGPointMake(tipPoint.x, tipPoint.y + (self.markerView.frame.size.height / 2));
                     //! 橫線
                     [ChartCommon drawLine:context
                                startPoint:CGPointMake(self.originPoint.x, tipPoint.y)
@@ -277,6 +277,8 @@
                                startPoint:CGPointMake(tipPoint.x, self.rightTopPoint.y)
                                  endPoint:CGPointMake(tipPoint.x, self.originPoint.y)
                                 lineColor:self.yLineColor width:1.0f];
+                    
+                    hadDrawTipLine = true;
                 }
             }
         }

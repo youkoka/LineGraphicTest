@@ -33,7 +33,7 @@
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
         
         //! (上, 左, 下, 右)
-        _edgeInset = UIEdgeInsetsMake(10, 40, 20, 10);
+        _edgeInset = UIEdgeInsetsMake(30, 40, 20, 10);
         
         
         //! default value
@@ -139,6 +139,7 @@
     [self setNeedsDisplay];
 
 }
+
 #pragma mark - UIGestureRecognizer event
 -(void) handleLongTap:(UIGestureRecognizer *) recongizer
 {
@@ -156,7 +157,7 @@
             
             self.markerView.hidden = YES;
         }
-
+        
         [self setNeedsDisplay];
     }
 }

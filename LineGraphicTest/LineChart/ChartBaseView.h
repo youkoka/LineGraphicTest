@@ -79,10 +79,24 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 //! 目前點擊點
 @property(readonly) CGPoint tapLocation;
 
-//! 是否顯示提示框
-@property BOOL isShowTipLine;
+//! 資料
+@property (nonatomic, strong) NSArray *dataSourceAry;
+
+//! x軸顯示文字
+@property (nonatomic, strong) NSArray *lineLabelAry;
+
+@property (nonatomic, strong) MarkerView *markerView;
+
+//! x軸顏色
+@property (nonatomic, strong) UIColor *xLineColor;
+
+//! y 軸顏色
+@property (nonatomic, strong) UIColor *yLineColor;
 
 @property(readonly) BOOL isHideTipLine;
+
+//! 是否顯示提示框
+@property BOOL isShowTipLine;
 
 //! 縮放至螢幕大小
 @property BOOL isScaleToView;
@@ -101,30 +115,18 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 @property(readonly) CGFloat xPerStepWidth;
 @property(readonly) CGFloat yPerStepHeight;
 
-//! 縮放比例大小(預設值:1)
-@property CGFloat zoomScale;
-
-//! 資料
-@property (nonatomic, strong) NSArray *dataSourceAry;
-
-//! x軸顯示文字
-@property (nonatomic, strong) NSArray *lineLabelAry;
-
-@property (nonatomic, strong) MarkerView *markerView;
-
-//! x軸顏色
-@property (nonatomic, strong) UIColor *xLineColor;
-
-//! y 軸顏色
-@property (nonatomic, strong) UIColor *yLineColor;
-
 //! 是否顯示座標點
 @property BOOL isShowAnchorPoint;
+
+//! 縮放比例大小(預設值:1)
+@property CGFloat zoomScale;
 
 //! 依據畫面大小更新相關點的資訊
 -(void) updateViewWithFrame:(CGRect)frame;
 
 //! 依據畫面大小重設相關點的資訊
 -(void) resetViewWithFrame:(CGRect)frame;
+
+-(void) drawTipLine;
 
 @end
