@@ -36,6 +36,9 @@
 
     if ( self = [super init]) {
         
+        //! 將圓點設為左下角
+        [self setTransform:CGAffineTransformMakeScale(1, -1)];
+
         self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
@@ -57,6 +60,9 @@
 {
     if ( self = [super initWithFrame:frame]) {
         
+        //! 將圓點設為左下角
+        [self setTransform:CGAffineTransformMakeScale(1, -1)];
+
         self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, 0, frame.size.width - XOffset, (frame.size.height / 3))];
         self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
@@ -77,6 +83,9 @@
 {
     if ( self = [super initWithImage:image]) {
     
+        //! 將圓點設為左下角
+        [self setTransform:CGAffineTransformMakeScale(1, -1)];
+
         CGSize imgSize = image.size;
         
         self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, 0, imgSize.width - XOffset, (imgSize.height / 3))];
@@ -99,6 +108,9 @@
 {
     if ( self = [super initWithImage:image highlightedImage:highlightedImage]) {
         
+        //! 將圓點設為左下角
+        [self setTransform:CGAffineTransformMakeScale(1, -1)];
+
         CGSize imgSize = image.size;
         
         self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, 0, imgSize.width - XOffset, (imgSize.height / 3))];

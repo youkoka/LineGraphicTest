@@ -37,13 +37,13 @@
     
     self.dataSourceAry = [NSMutableArray array];
     
-    for (int i = 0; i != 500; i++) {
+    for (int i = 0; i != 1000; i++) {
         
         AnchorItem *item = [[AnchorItem alloc] init];
         item.xValue = i + 1;
         item.y1Value = 1 + (rand() % 100) * 0.01 + 10;
         item.y2Value = 1 + (rand() % 100) * 0.01;
-        item.sLabel = @"12:20";
+//        item.sLabel = @"12:20";
 //        item.dicDataSource = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%f,%f", item.xValue, item.y1Value] forKey:@"value"];
         [self.dataSourceAry addObject:item];
     }
@@ -53,7 +53,7 @@
                              300);
     
     self.lineChartView = [[[LineChartView alloc] initWithFrame:rect] autorelease];
-    self.lineChartView.drawLineTypeOfY = LineDrawTypeNone;
+    self.lineChartView.drawLineTypeOfY = LineDrawTypeDottedLine;
     self.lineChartView.drawLineTypeOfX = LineDrawTypeDottedLine;
     self.lineChartView.isEnableUserAction = YES;
     self.lineChartView.isScaleToView = YES;

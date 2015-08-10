@@ -12,6 +12,7 @@
 		C594132B1B427F1700DEBADA /* AnchorView.m in Sources */ = {isa = PBXBuildFile; fileRef = C59413221B427F1700DEBADA /* AnchorView.m */; };
 		C594132C1B427F1700DEBADA /* ChartCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = C59413251B427F1700DEBADA /* ChartCommon.m */; };
 		C594132E1B427F1700DEBADA /* LineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = C594132A1B427F1700DEBADA /* LineChartView.m */; };
+		C5AD158A1B7837A100CFD707 /* TipLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AD15891B7837A100CFD707 /* TipLineView.m */; };
 		C5B6EEF91B60CA6600753C8D /* ChartBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B6EEF81B60CA6600753C8D /* ChartBaseView.m */; };
 		C5E091171AC55B5800D404C6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5E091161AC55B5800D404C6 /* main.m */; };
 		C5E0911A1AC55B5800D404C6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5E091191AC55B5800D404C6 /* AppDelegate.m */; };
@@ -46,6 +47,8 @@
 		C59413261B427F1700DEBADA /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C59413291B427F1700DEBADA /* LineChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineChartView.h; sourceTree = "<group>"; };
 		C594132A1B427F1700DEBADA /* LineChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineChartView.m; sourceTree = "<group>"; };
+		C5AD15881B7837A100CFD707 /* TipLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TipLineView.h; sourceTree = "<group>"; };
+		C5AD15891B7837A100CFD707 /* TipLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TipLineView.m; sourceTree = "<group>"; };
 		C5B6EEF71B60CA6600753C8D /* ChartBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartBaseView.h; sourceTree = "<group>"; };
 		C5B6EEF81B60CA6600753C8D /* ChartBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartBaseView.m; sourceTree = "<group>"; };
 		C5E091111AC55B5800D404C6 /* LineGraphicTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LineGraphicTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +103,8 @@
 				C594132A1B427F1700DEBADA /* LineChartView.m */,
 				C57481111B6B0C3D004806D2 /* MarkerView.h */,
 				C57481121B6B0C3D004806D2 /* MarkerView.m */,
+				C5AD15881B7837A100CFD707 /* TipLineView.h */,
+				C5AD15891B7837A100CFD707 /* TipLineView.m */,
 			);
 			path = LineChart;
 			sourceTree = "<group>";
@@ -292,6 +297,7 @@
 				C5E0911A1AC55B5800D404C6 /* AppDelegate.m in Sources */,
 				C57481131B6B0C3D004806D2 /* MarkerView.m in Sources */,
 				C594132E1B427F1700DEBADA /* LineChartView.m in Sources */,
+				C5AD158A1B7837A100CFD707 /* TipLineView.m in Sources */,
 				C5B6EEF91B60CA6600753C8D /* ChartBaseView.m in Sources */,
 				C5E091171AC55B5800D404C6 /* main.m in Sources */,
 			);

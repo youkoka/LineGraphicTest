@@ -14,10 +14,6 @@
 
 @property (nonatomic, strong) NSMutableArray *anchorAry;
 
-@property (nonatomic, strong) NSMutableArray *xArray;
-@property (nonatomic, strong) NSMutableArray *y1Array;
-@property (nonatomic, strong) NSMutableArray *y2Array;
-
 //! 產生 X/Y軸刻度
 -(void) buildAxisStepByDataSource;
 
@@ -29,10 +25,6 @@
 -(void) dealloc
 {
     OBJC_RELEASE(self.anchorAry);
-    OBJC_RELEASE(self.xArray);
-    OBJC_RELEASE(self.y1Array);
-    OBJC_RELEASE(self.y2Array);
-   
     
     [super dealloc];
 }
@@ -43,9 +35,6 @@
     if ( (self = [super initWithFrame:frame]) ) {
         
         self.anchorAry = [NSMutableArray array];
-        self.xArray = [NSMutableArray array];
-        self.y1Array = [NSMutableArray array];
-        self.y2Array = [NSMutableArray array];
     }
     
     return self;
@@ -83,8 +72,6 @@
     CGPoint endAnchorPoint2 = self.originPoint;
     
     NSInteger anchorRadius = 0;
-
-    BOOL hadDrawTipLine = false;
     
     if (self.anchorAry != nil) {
         
@@ -204,82 +191,6 @@
                            startPoint:startAnchorPoint2
                              endPoint:endAnchorPoint2
                             lineColor:[UIColor redColor] width:1.0f];
-            }
-
-            if(self.isHideTipLine == NO && hadDrawTipLine == false) {
-                
-                CGPoint tipPoint = CGPointMake(0, 0);
-                
-                //! 指示線
-                if (startAnchorPoint1.x <= self.tapLocation.x && endAnchorPoint1.x >= self.tapLocation.x) {
-                    
-                    if (fabs(startAnchorPoint1.x - self.tapLocation.x) <= fabs(endAnchorPoint1.x - self.tapLocation.x) ) {
-                        
-                        if (![startItem.sLabel isEqualToString:@""]) {
-                            
-                            self.markerView.title = startItem.sLabel;
-                        }
-                        else {
-                            
-                            self.markerView.title = [NSString stringWithFormat:@"%.4f", startItem.xValue];
-                        }
-
-                        if (fabs(self.tapLocation.y - startAnchorPoint1.y) <= fabs(self.tapLocation.y - startAnchorPoint2.y)) {
-                            
-                            tipPoint = startAnchorPoint1;
-                            
-                            self.markerView.message = [NSString stringWithFormat:@"%.4f", startItem.y1Value];
-                        }
-                        else {
-                        
-                            tipPoint = startAnchorPoint2;
-                            
-                            self.markerView.message = [NSString stringWithFormat:@"%.4f", startItem.y2Value];
-                        }
-                    }
-                    else {
-                    
-                        if (![startItem.sLabel isEqualToString:@""]) {
-                            
-                            self.markerView.title = endItem.sLabel;
-                        }
-                        else {
-                            
-                            self.markerView.title = [NSString stringWithFormat:@"%.4f", endItem.xValue];
-                        }
-
-                        if (fabs(self.tapLocation.y - endAnchorPoint1.y) <= fabs(self.tapLocation.y - endAnchorPoint2.y)) {
-                            
-                            tipPoint = endAnchorPoint1;
-
-                            self.markerView.message = [NSString stringWithFormat:@"%.4f", endItem.y1Value];
-                        }
-                        else {
-                            
-                            tipPoint = endAnchorPoint2;
-                            
-                            self.markerView.message = [NSString stringWithFormat:@"%.4f", endItem.y2Value];
-                        }
-                    }
-                    
-                    CGFloat yPattern[1]= {1};
-                    CGContextSetLineDash(context, 0.0, yPattern, 0);
-                    
-                    self.markerView.center = CGPointMake(tipPoint.x, tipPoint.y + (self.markerView.frame.size.height / 2));
-                    //! 橫線
-                    [ChartCommon drawLine:context
-                               startPoint:CGPointMake(self.originPoint.x, tipPoint.y)
-                                 endPoint:CGPointMake(self.rightBottomPoint.x, tipPoint.y)
-                                lineColor:self.xLineColor width:1.0f];
-                    
-                    //! 豎線
-                    [ChartCommon drawLine:context
-                               startPoint:CGPointMake(tipPoint.x, self.rightTopPoint.y)
-                                 endPoint:CGPointMake(tipPoint.x, self.originPoint.y)
-                                lineColor:self.yLineColor width:1.0f];
-                    
-                    hadDrawTipLine = true;
-                }
             }
         }
     }

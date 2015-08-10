@@ -7,8 +7,23 @@
 //
 
 #import "ChartBaseView.h"
+#import "TipLineView.h"
 
 @interface ChartBaseView()
+
+@property (nonatomic, strong) TipLineView *tipLineView;
+
+//! 設定提示線參數
+-(void) setTipLineViewConfigure;
+
+//! 壓住不放事件
+-(void) handleLongTap:(UIGestureRecognizer *) recongizer;
+
+//! 移動事件
+-(void) handlePan:(UIPanGestureRecognizer *)recognizer;
+
+//! 縮放事件
+-(void) handlePinch:(UIPinchGestureRecognizer*) recognizer;
 
 @end
 
@@ -17,10 +32,13 @@
 -(void) dealloc
 {
     OBJC_RELEASE(self.dataSourceAry);
-    OBJC_RELEASE(self.markerView);
     OBJC_RELEASE(self.lineLabelAry);
     OBJC_RELEASE(self.xLineColor);
     OBJC_RELEASE(self.yLineColor);
+    OBJC_RELEASE(self.tipLineView);
+    OBJC_RELEASE(self.xArray);
+    OBJC_RELEASE(self.y1Array);
+    OBJC_RELEASE(self.y2Array);
     
     [super dealloc];
 }
@@ -41,7 +59,6 @@
         self.drawLineTypeOfY = LineDrawTypeDottedLine;
         self.isMultipleY = NO;
         self.isShowTipLine = NO;
-        _isHideTipLine = YES;
         self.isEnableUserAction = NO;
         self.isScaleToView = NO;
         self.isShowAnchorPoint = NO;
@@ -58,21 +75,24 @@
         self.dataSourceAry = [NSArray array];
         self.lineLabelAry = [NSArray array];
         
-        self.markerView = [[[MarkerView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
-        [self.markerView setFrame:CGRectMake(0, 0, 60, 40)];
-        self.markerView.hidden = YES;
-        [self addSubview:self.markerView];
+        self.xArray = [NSMutableArray array];
+        self.y1Array = [NSMutableArray array];
+        self.y2Array = [NSMutableArray array];
+
+        self.tipLineView = [[[TipLineView alloc] init] autorelease];
+        [self addSubview:self.tipLineView];
         
-        [self.markerView setTransform:CGAffineTransformMakeScale(1, -1)];
-        
+        //! 壓住不放事件
         UILongPressGestureRecognizer *longGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap:)];
         [self addGestureRecognizer:longGestureRecognizer];
         [longGestureRecognizer release];
         
+        //! 移動事件
         UIPanGestureRecognizer *panGestureRecongnizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
         [self addGestureRecognizer:panGestureRecongnizer];
         [UIPanGestureRecognizer release];
         
+        //! 縮放事件
         UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
         [self addGestureRecognizer:pinchGestureRecognizer];
         [pinchGestureRecognizer release];
@@ -106,6 +126,8 @@
     _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount;
     _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount;
     
+    [self setTipLineViewConfigure];
+    
     [self setNeedsDisplay];
 }
 
@@ -136,29 +158,34 @@
     _xPerStepWidth = self.drawContentWidth / self.xDrawLineCount;
     _yPerStepHeight = self.drawContentHeight / self.yDrawLineCount;
     
+    [self setTipLineViewConfigure];
+    
     [self setNeedsDisplay];
-
 }
 
+//! 設定提示線參數
+-(void) setTipLineViewConfigure
+{
+    self.tipLineView.xPerStepWidth = _xPerStepWidth;
+    self.tipLineView.yPerStepHeight = _yPerStepHeight;
+    self.tipLineView.contentScroll = _contentScroll;
+    self.tipLineView.xArray = self.xArray;
+    self.tipLineView.y1Array = self.y1Array;
+    self.tipLineView.y2Array = self.y2Array;
+    self.tipLineView.dataSourceAry = self.dataSourceAry;
+    self.tipLineView.edgeInset = _edgeInset;
+    
+    self.tipLineView.frame = CGRectMake(_edgeInset.left, _edgeInset.bottom, (self.frame.size.width - _edgeInset.right - _edgeInset.left), (self.frame.size.height - _edgeInset.top - _edgeInset.bottom));
+
+}
 #pragma mark - UIGestureRecognizer event
 -(void) handleLongTap:(UIGestureRecognizer *) recongizer
 {
     _tapLocation = [recongizer locationInView:self];
     
     if (self.isShowTipLine == YES) {
-    
-        _isHideTipLine = NO;
         
-        self.markerView.hidden = NO;
-        
-        if(recongizer.state == UIGestureRecognizerStateEnded) {
-            
-            _isHideTipLine = YES;
-            
-            self.markerView.hidden = YES;
-        }
-        
-        [self setNeedsDisplay];
+        [self.tipLineView handleLongTap:recongizer];
     }
 }
 
@@ -209,12 +236,17 @@
                 _contentScroll.y = -(self.drawContentHeight - self.drawOriginContentHeight);
             }
         }
+        
+        if (self.isShowTipLine == YES) {
+            
+            [self setTipLineViewConfigure];
+        }
     }
      
     [self setNeedsDisplay];
 }
 
-- (void) handlePinch:(UIPinchGestureRecognizer*) recognizer
+-(void) handlePinch:(UIPinchGestureRecognizer*) recognizer
 {
     if (self.isEnableUserAction == YES) {
         
