@@ -252,6 +252,7 @@
 
 -(void) handlePan:(UIPanGestureRecognizer *)recognizer
 {
+    
 }
 
 - (void) handlePinch:(UIPinchGestureRecognizer*) recognizer

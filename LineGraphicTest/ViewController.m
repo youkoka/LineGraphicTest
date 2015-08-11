@@ -37,7 +37,7 @@
     
     self.dataSourceAry = [NSMutableArray array];
     
-    for (int i = 0; i != 1000; i++) {
+    for (int i = 0; i != 2000; i++) {
         
         AnchorItem *item = [[AnchorItem alloc] init];
         item.xValue = i + 1;
