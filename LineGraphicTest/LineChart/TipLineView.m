@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "ChartCommon.h"
 #import "MarkerView.h"
+#import "CommentView.h"
 
 @interface TipLineView()
 
@@ -63,7 +64,7 @@
         self.y2Array = [NSMutableArray array];
 
         self.markerView = [[[MarkerView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
-        [self.markerView setFrame:CGRectMake(0, 0, 60, 60)];
+        [self.markerView setFrame:CGRectMake(0, 0, 80, 60)];
         self.markerView.tipTextColor = self.tipTextColor;
         self.markerView.hidden = YES;
         [self addSubview:self.markerView];
@@ -221,6 +222,16 @@
                         CGContextSetLineDash(context, 0.0, yPattern, 0);
                         
                         self.markerView.center = CGPointMake(tipPoint.x, tipPoint.y + (self.markerView.frame.size.height / 2));
+                        
+                        if ((self.markerView.center.x + self.markerView.frame.size.width / 2) > self.frame.size.width) {
+                        
+                            self.markerView.center = CGPointMake(self.frame.size.width - (self.markerView.frame.size.width / 2), self.markerView.center.y);
+                        }
+                        else if((self.markerView.center.x - self.markerView.frame.size.width / 2) < self.originPoint.x) {
+                            
+                            self.markerView.center = CGPointMake(self.originPoint.x + (self.markerView.frame.size.width / 2), self.markerView.center.y);
+                        }
+                        
                         self.markerView.tipTextColor = self.tipTextColor;
                         
                         //! 橫線

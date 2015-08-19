@@ -9,11 +9,13 @@
 #import "LineChartView.h"
 #import "ChartCommon.h"
 #import "Constants.h"
+#import "CommentView.h"
 
 @interface LineChartView()
 
 @property (nonatomic, strong) NSMutableArray *anchorAry;
 
+@property (nonatomic, strong) CommentView *commentView;
 //! 產生 X/Y軸刻度
 -(void) buildAxisStepByDataSource;
 
@@ -32,6 +34,8 @@
     
     OBJC_RELEASE(self.xAxisLineColor);
     OBJC_RELEASE(self.yAxisLineColor);
+    
+    OBJC_RELEASE(self.commentView);
     
     OBJC_RELEASE(self.anchorAry);
     
@@ -52,6 +56,12 @@
         self.dataSourceLine2Color = [UIColor orangeColor];
         
         self.anchorAry = [NSMutableArray array];
+        
+        self.commentView = [[CommentView alloc] initWithFrame:CGRectMake(0, frame.size.height - 30, frame.size.width, 30)];
+        self.commentView.comment1Color = self.dataSourceLine1Color;
+        self.commentView.comment2Color = self.dataSourceLine2Color;
+        [self addSubview:self.commentView];
+        [self.commentView release];
     }
     
     return self;
@@ -71,6 +81,20 @@
     self.frame = frame;
     
     [self resetViewWithFrame:self.frame];
+}
+
+-(void) setDataSourceLine1Color:(UIColor *)dataSourceLine1Color
+{
+    _dataSourceLine1Color = dataSourceLine1Color;
+    
+    self.commentView.comment1Color = dataSourceLine1Color;
+}
+
+-(void) setDataSourceLine2Color:(UIColor *)dataSourceLine2Color
+{
+    _dataSourceLine2Color = dataSourceLine2Color;
+    
+    self.commentView.comment2Color = dataSourceLine2Color;
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -232,7 +256,7 @@
     }
     else if(self.drawLineTypeOfX == LineDrawTypeDottedLine) {
         
-        CGFloat xPattern[2]= {6.0, 5};
+        CGFloat xPattern[2]= {6, 5};
         CGContextSetLineDash(context, 0.0, xPattern, 2);
     }
     
@@ -249,7 +273,7 @@
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(self.originPoint.x, yPosition)
                              endPoint:CGPointMake(self.originPoint.x + 5, yPosition)
-                            lineColor:self.xLineColor width:0.1f];
+                            lineColor:self.xLineColor width:0.5f];
                 
             }
             
@@ -258,7 +282,7 @@
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(self.originPoint.x, yPosition)
                              endPoint:CGPointMake(self.rightBottomPoint.x, yPosition)
-                            lineColor:self.xLineColor width:0.1f];
+                            lineColor:self.xLineColor width:0.5f];
             }
             
             //! 顯示文字
@@ -284,15 +308,15 @@
                 
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(xPosition, self.originPoint.y)
-                             endPoint:CGPointMake(xPosition, self.originPoint.y - 5)
-                            lineColor:self.yLineColor width:0.1f];
+                             endPoint:CGPointMake(xPosition, self.originPoint.y + 5)
+                            lineColor:self.yLineColor width:0.5f];
             }
             else {
                 
                 [ChartCommon drawLine:context
                            startPoint:CGPointMake(xPosition, self.originPoint.y)
                              endPoint:CGPointMake(xPosition, self.leftTopPoint.y)
-                            lineColor:self.yLineColor width:0.1f];
+                            lineColor:self.yLineColor width:0.5f];
             }
             //! 顯示文字
             NSString *valStr = @"";
@@ -319,14 +343,14 @@
     
 #pragma mark 畫 X, Y軸
     
-    CGFloat normal[1]={1};
+    CGFloat normal[1]={2};
     CGContextSetLineDash(context,0,normal,0); //! 畫實線
 
     //! X軸
-    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.rightBottomPoint lineColor:self.xAxisLineColor width:0.5f];
+    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.rightBottomPoint lineColor:self.xAxisLineColor width:1.0f];
 
     //! 左Y軸
-    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.leftTopPoint lineColor:self.yAxisLineColor width:0.5f];
+    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.leftTopPoint lineColor:self.yAxisLineColor width:1.0f];
 }
 
 #pragma mark - Custom methods
@@ -375,6 +399,9 @@
                 yMax = item.y2Value;
             }
         }
+        
+        //! 將上方間距拉高
+        yMax += yMax / 5;
         
         //! x 軸刻度
         if (!self.xArray) {

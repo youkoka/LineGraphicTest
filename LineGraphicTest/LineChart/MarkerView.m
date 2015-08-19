@@ -11,6 +11,8 @@
 
 #define XOffset 5.0
 
+#define FONT_SIZE [UIFont fontWithName:@"Helvetica" size:14]
+
 @interface MarkerView()
 
 @property (nonatomic, strong) UILabel *lbTitle;
@@ -43,19 +45,19 @@
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
 
         self.lbTitle = [[UILabel alloc] init];
-        self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbTitle.font = FONT_SIZE;
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
         self.lbMessage1 = [[UILabel alloc] init];
-        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.font = FONT_SIZE;
         self.lbMessage1.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage1];
         [self.lbMessage1 release];
         
         self.lbMessage2 = [[UILabel alloc] init];
-        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.font = FONT_SIZE;
         self.lbMessage2.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage2];
         [self.lbMessage2 release];
@@ -74,19 +76,19 @@
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
 
         self.lbTitle = [[UILabel alloc] init];
-        self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbTitle.font = FONT_SIZE;
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
         self.lbMessage1 = [[UILabel alloc] init];
-        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.font = FONT_SIZE;
         self.lbMessage1.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage1];
         [self.lbMessage1 release];
         
         self.lbMessage2 = [[UILabel alloc] init];
-        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.font = FONT_SIZE;
         self.lbMessage2.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage2];
         [self.lbMessage2 release];
@@ -105,19 +107,19 @@
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
         
         self.lbTitle = [[UILabel alloc] init];
-        self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbTitle.font = FONT_SIZE;
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
         self.lbMessage1 = [[UILabel alloc] init];
-        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.font = FONT_SIZE;
         self.lbMessage1.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage1];
         [self.lbMessage1 release];
         
         self.lbMessage2 = [[UILabel alloc] init];
-        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.font = FONT_SIZE;
         self.lbMessage2.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage2];
         [self.lbMessage2 release];
@@ -136,19 +138,19 @@
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
         
         self.lbTitle = [[UILabel alloc] init];
-        self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbTitle.font = FONT_SIZE;
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
         self.lbMessage1 = [[UILabel alloc] init];
-        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.font = FONT_SIZE;
         self.lbMessage1.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage1];
         [self.lbMessage1 release];
         
         self.lbMessage2 = [[UILabel alloc] init];
-        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.font = FONT_SIZE;
         self.lbMessage2.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbMessage2];
         [self.lbMessage2 release];
@@ -181,6 +183,8 @@
 
 -(void) setTitle:(NSString *)title
 {
+    _title = title;
+    
     if (self.lbTitle != nil) {
         
         self.lbTitle.text = title;
@@ -189,6 +193,8 @@
 
 -(void) setMessage1:(NSString *)message
 {
+    _message1 = message;
+    
     if (self.lbMessage1 != nil) {
         
         self.lbMessage1.text = message;
@@ -197,6 +203,8 @@
 
 -(void) setMessage2:(NSString *)message
 {
+    _message2 = message;
+    
     if (self.lbMessage2 != nil) {
         
         self.lbMessage2.text = message;
@@ -205,6 +213,8 @@
 
 -(void) setTipTextColor:(UIColor *)tipTextColor
 {
+    _tipTextColor = tipTextColor;
+    
     if (self.lbTitle != nil) {
         
         self.lbTitle.textColor = tipTextColor;

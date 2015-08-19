@@ -8,6 +8,7 @@
 
 #import "ChartBaseView.h"
 #import "TipLineView.h"
+#import "CommentView.h"
 
 @interface ChartBaseView()
 
@@ -49,7 +50,7 @@
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
         
         //! (上, 左, 下, 右)
-        _edgeInset = UIEdgeInsetsMake(30, 40, 20, 10);
+        _edgeInset = UIEdgeInsetsMake(40, 40, 20, 20);
         
         self.tipTextColor = [UIColor blackColor];
         self.tipLineColor = [UIColor grayColor];
@@ -82,7 +83,7 @@
         self.tipLineView.tipTextColor = self.tipTextColor;
         
         [self addSubview:self.tipLineView];
-        
+
         //! 壓住不放事件
         UILongPressGestureRecognizer *longGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap:)];
         [self addGestureRecognizer:longGestureRecognizer];
