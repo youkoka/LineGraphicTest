@@ -167,17 +167,17 @@
     
     if (self.lbTitle != nil) {
         
-        self.lbTitle.frame = CGRectMake(XOffset, 0, frame.size.width - XOffset, (frame.size.height / 4));
+        self.lbTitle.frame = CGRectMake(XOffset, 0, frame.size.width - XOffset, (frame.size.height / 3));
     }
     
     if (self.lbMessage1 != nil) {
         
-        self.lbMessage1.frame = CGRectMake(XOffset, (frame.size.height / 4), frame.size.width - XOffset, (frame.size.height / 4));
+        self.lbMessage1.frame = CGRectMake(XOffset, (frame.size.height / 3), frame.size.width - XOffset, (frame.size.height / 3));
     }
     
     if (self.lbMessage2 != nil) {
         
-        self.lbMessage2.frame = CGRectMake(XOffset, (frame.size.height / 2), frame.size.width - XOffset, (frame.size.height / 4));
+        self.lbMessage2.frame = CGRectMake(XOffset, (frame.size.height / 3) * 2, frame.size.width - XOffset, (frame.size.height / 3));
     }
 }
 

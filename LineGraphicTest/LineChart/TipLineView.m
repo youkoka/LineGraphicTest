@@ -64,7 +64,7 @@
         self.y2Array = [NSMutableArray array];
 
         self.markerView = [[[MarkerView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
-        [self.markerView setFrame:CGRectMake(0, 0, 80, 60)];
+        [self.markerView setFrame:CGRectMake(0, 0, 80, 40)];
         self.markerView.tipTextColor = self.tipTextColor;
         self.markerView.hidden = YES;
         [self addSubview:self.markerView];
@@ -95,7 +95,7 @@
         self.y2Array = [NSMutableArray array];
 
         self.markerView = [[[MarkerView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
-        [self.markerView setFrame:CGRectMake(0, 0, 60, 60)];
+        [self.markerView setFrame:CGRectMake(0, 0, 60, 40)];
         self.markerView.tipTextColor = self.tipTextColor;
         self.markerView.hidden = YES;
         [self addSubview:self.markerView];
