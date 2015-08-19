@@ -37,6 +37,9 @@
     OBJC_RELEASE(self.y2Array);
     OBJC_RELEASE(self.markerView);
     
+    OBJC_RELEASE(self.tipLineColor);
+    OBJC_RELEASE(self.tipTextColor);
+    
     [super dealloc];
 }
 -(instancetype) init
@@ -45,6 +48,9 @@
         
         self.isShowTipLine = YES;
         self.hadDrawTipLine = NO;
+        
+        self.tipLineColor = [UIColor grayColor];
+        self.tipTextColor = [UIColor blackColor];
         
         self.originPoint = CGPointMake(0, 0);
         
@@ -57,7 +63,8 @@
         self.y2Array = [NSMutableArray array];
 
         self.markerView = [[[MarkerView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
-        [self.markerView setFrame:CGRectMake(0, 0, 60, 40)];
+        [self.markerView setFrame:CGRectMake(0, 0, 60, 60)];
+        self.markerView.tipTextColor = self.tipTextColor;
         self.markerView.hidden = YES;
         [self addSubview:self.markerView];
         
@@ -73,6 +80,9 @@
         self.isShowTipLine = YES;
         self.hadDrawTipLine = NO;
         
+        self.tipLineColor = [UIColor grayColor];
+        self.tipTextColor = [UIColor blackColor];
+        
         self.originPoint = CGPointMake(0, 0);
 
         self.dataSourceAry = [NSArray array];
@@ -84,11 +94,12 @@
         self.y2Array = [NSMutableArray array];
 
         self.markerView = [[[MarkerView alloc] initWithImage:[UIImage imageNamed:@"marker"]] autorelease];
-        [self.markerView setFrame:CGRectMake(0, 0, 60, 40)];
+        [self.markerView setFrame:CGRectMake(0, 0, 60, 60)];
+        self.markerView.tipTextColor = self.tipTextColor;
         self.markerView.hidden = YES;
         [self addSubview:self.markerView];
 
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     
     return self;
@@ -156,71 +167,73 @@
                     //! 指示線
                     if (startAnchorPoint1.x <= self.tapLocation.x && endAnchorPoint1.x >= self.tapLocation.x) {
                         
-                        if (fabs(startAnchorPoint1.x - self.tapLocation.x) <= fabs(endAnchorPoint1.x - self.tapLocation.x) ) {
+                        if (![startItem.sLabel isEqualToString:@""]) {
                             
-                            if (![startItem.sLabel isEqualToString:@""]) {
-                                
-                                self.markerView.title = startItem.sLabel;
-                            }
-                            else {
-                                
-                                self.markerView.title = [NSString stringWithFormat:@"%.4f", startItem.xValue];
-                            }
+                            self.markerView.title = startItem.sLabel;
+                        }
+                        else {
+                            
+                            self.markerView.title = [NSString stringWithFormat:@"%.2f", startItem.xValue];
+                        }
+
+                        //! 判斷上半部或下半部
+                        if (fabs(startAnchorPoint1.x - self.tapLocation.x) <= fabs(endAnchorPoint1.x - self.tapLocation.x) ) {
                             
                             if (fabs(self.tapLocation.y - startAnchorPoint1.y) <= fabs(self.tapLocation.y - startAnchorPoint2.y)) {
                                 
                                 tipPoint = startAnchorPoint1;
-                                
-                                self.markerView.message = [NSString stringWithFormat:@"%.4f", startItem.y1Value];
                             }
                             else {
                                 
                                 tipPoint = startAnchorPoint2;
-                                
-                                self.markerView.message = [NSString stringWithFormat:@"%.4f", startItem.y2Value];
                             }
+                            
+                            self.markerView.message1 = [NSString stringWithFormat:@"賣出:%.4f", startItem.y1Value];
+                            self.markerView.message2 = [NSString stringWithFormat:@"買入:%.4f", startItem.y2Value];
+
                         }
                         else {
                             
-                            if (![startItem.sLabel isEqualToString:@""]) {
+                            if (![endItem.sLabel isEqualToString:@""]) {
                                 
                                 self.markerView.title = endItem.sLabel;
                             }
                             else {
                                 
-                                self.markerView.title = [NSString stringWithFormat:@"%.4f", endItem.xValue];
+                                self.markerView.title = [NSString stringWithFormat:@"%.2f", endItem.xValue];
                             }
+
                             
                             if (fabs(self.tapLocation.y - endAnchorPoint1.y) <= fabs(self.tapLocation.y - endAnchorPoint2.y)) {
                                 
                                 tipPoint = endAnchorPoint1;
-                                
-                                self.markerView.message = [NSString stringWithFormat:@"%.4f", endItem.y1Value];
                             }
                             else {
                                 
                                 tipPoint = endAnchorPoint2;
-                                
-                                self.markerView.message = [NSString stringWithFormat:@"%.4f", endItem.y2Value];
                             }
+                            
+                            self.markerView.message1 = [NSString stringWithFormat:@"賣出:%.4f", endItem.y1Value];
+                            self.markerView.message2 = [NSString stringWithFormat:@"買入:%.4f", endItem.y2Value];
                         }
                         
                         CGFloat yPattern[1]= {1};
                         CGContextSetLineDash(context, 0.0, yPattern, 0);
                         
                         self.markerView.center = CGPointMake(tipPoint.x, tipPoint.y + (self.markerView.frame.size.height / 2));
+                        self.markerView.tipTextColor = self.tipTextColor;
                         
                         //! 橫線
                         [ChartCommon drawLine:context
                                    startPoint:CGPointMake(self.originPoint.x, tipPoint.y)
                                      endPoint:CGPointMake(self.frame.size.width, tipPoint.y)
-                                    lineColor:[UIColor grayColor] width:1.0f];
+                                    lineColor:self.tipLineColor width:1.0f];
                         
                         //! 豎線
                         [ChartCommon drawLine:context
                                    startPoint:CGPointMake(tipPoint.x, self.self.frame.size.height)
                                      endPoint:CGPointMake(tipPoint.x, self.originPoint.y)
-                                    lineColor:[UIColor grayColor] width:1.0f];
+                                    lineColor:self.tipLineColor width:1.0f];
                         
                         self.hadDrawTipLine = YES;
                     }

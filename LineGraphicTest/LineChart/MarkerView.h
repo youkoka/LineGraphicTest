@@ -12,6 +12,13 @@
 
 @property (nonatomic, strong) NSString *title;
 
-@property (nonatomic, strong) NSString *message;
+@property (nonatomic, strong) NSString *message1;
+
+@property (nonatomic, strong) NSString *message2;
+
+//! 提示框文字顏色
+@property (nonatomic, strong) UIColor *tipTextColor;
+
+-(void) setTipTextColor:(UIColor *)tipTextColor;
 
 @end

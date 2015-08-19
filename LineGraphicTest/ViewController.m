@@ -37,7 +37,7 @@
     
     self.dataSourceAry = [NSMutableArray array];
     
-    for (int i = 0; i != 2000; i++) {
+    for (int i = 0; i != 100; i++) {
         
         AnchorItem *item = [[AnchorItem alloc] init];
         item.xValue = i + 1;
@@ -47,7 +47,7 @@
 //        item.dicDataSource = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%f,%f", item.xValue, item.y1Value] forKey:@"value"];
         [self.dataSourceAry addObject:item];
     }
-    
+
     CGRect rect = CGRectMake(5, 40,
                              self.view.frame.size.width - 5 - 5,
                              300);
@@ -61,6 +61,9 @@
     self.lineChartView.isShowAnchorPoint = YES;
     self.lineChartView.xLineCount = 5;
     self.lineChartView.yLineCount = 5;
+//    self.lineChartView.tipLineColor = [UIColor grayColor];
+//    self.lineChartView.tipTextColor = [UIColor blackColor];
+    
 //    self.lineChartView.lineLabelAry = [NSArray arrayWithObjects:@"1/1", @"2/1", @"3/1", @"4/1", @"5/1", nil];
     [self.lineChartView setDataSource:self.dataSourceAry];
     [self.view addSubview:self.lineChartView];

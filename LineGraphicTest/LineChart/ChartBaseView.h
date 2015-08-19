@@ -85,11 +85,8 @@ typedef NS_ENUM(NSInteger, LineDrawType)
 //! x軸顯示文字
 @property (nonatomic, strong) NSArray *lineLabelAry;
 
-//! x軸顏色
-@property (nonatomic, strong) UIColor *xLineColor;
-
-//! y 軸顏色
-@property (nonatomic, strong) UIColor *yLineColor;
+@property (nonatomic, strong) UIColor *tipTextColor;
+@property (nonatomic, strong) UIColor *tipLineColor;
 
 //! 是否顯示提示框
 @property BOOL isShowTipLine;

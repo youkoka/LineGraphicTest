@@ -15,7 +15,8 @@
 
 @property (nonatomic, strong) UILabel *lbTitle;
 
-@property (nonatomic, strong) UILabel *lbMessage;
+@property (nonatomic, strong) UILabel *lbMessage1;
+@property (nonatomic, strong) UILabel *lbMessage2;
 
 @end
 
@@ -24,11 +25,13 @@
 -(void) dealloc
 {
     OBJC_RELEASE(self.title);
-    OBJC_RELEASE(self.message);
+    OBJC_RELEASE(self.message1);
 
     OBJC_RELEASE(self.lbTitle);
-    OBJC_RELEASE(self.lbMessage);
+    OBJC_RELEASE(self.lbMessage1);
+    OBJC_RELEASE(self.lbMessage2);
     
+    OBJC_RELEASE(self.tipTextColor);
     [super dealloc];
 }
 
@@ -39,18 +42,25 @@
         //! 將圓點設為左下角
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
 
-        self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        self.lbTitle = [[UILabel alloc] init];
         self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
-        self.lbMessage = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-        self.lbMessage.font = [UIFont fontWithName:@"Helvetica" size:12];
-        self.lbMessage.adjustsFontSizeToFitWidth = YES;
-        [self addSubview:self.lbMessage];
-        [self.lbMessage release];
+        self.lbMessage1 = [[UILabel alloc] init];
+        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage1];
+        [self.lbMessage1 release];
+        
+        self.lbMessage2 = [[UILabel alloc] init];
+        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage2];
+        [self.lbMessage2 release];
 
+        self.lbTitle.textColor = self.lbMessage1.textColor = self.lbMessage2.textColor = [UIColor blackColor];
     }
     
     return self;
@@ -63,17 +73,25 @@
         //! 將圓點設為左下角
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
 
-        self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, 0, frame.size.width - XOffset, (frame.size.height / 3))];
+        self.lbTitle = [[UILabel alloc] init];
         self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
-        self.lbMessage = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, (frame.size.height / 3), frame.size.width - XOffset, (frame.size.height / 3))];
-        self.lbMessage.font = [UIFont fontWithName:@"Helvetica" size:12];
-        self.lbMessage.adjustsFontSizeToFitWidth = YES;
-        [self addSubview:self.lbMessage];
-        [self.lbMessage release];
+        self.lbMessage1 = [[UILabel alloc] init];
+        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage1];
+        [self.lbMessage1 release];
+        
+        self.lbMessage2 = [[UILabel alloc] init];
+        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage2];
+        [self.lbMessage2 release];
+        
+        self.lbTitle.textColor = self.lbMessage1.textColor = self.lbMessage2.textColor = [UIColor blackColor];
     }
     
     return self;
@@ -85,20 +103,26 @@
     
         //! 將圓點設為左下角
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
-
-        CGSize imgSize = image.size;
         
-        self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, 0, imgSize.width - XOffset, (imgSize.height / 3))];
+        self.lbTitle = [[UILabel alloc] init];
         self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
-        self.lbMessage = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, (imgSize.height / 3), imgSize.width - XOffset, (imgSize.height / 3))];
-        self.lbMessage.font = [UIFont fontWithName:@"Helvetica" size:12];
-        self.lbMessage.adjustsFontSizeToFitWidth = YES;
-        [self addSubview:self.lbMessage];
-        [self.lbMessage release];
+        self.lbMessage1 = [[UILabel alloc] init];
+        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage1];
+        [self.lbMessage1 release];
+        
+        self.lbMessage2 = [[UILabel alloc] init];
+        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage2];
+        [self.lbMessage2 release];
+        
+        self.lbTitle.textColor = self.lbMessage1.textColor = self.lbMessage2.textColor = [UIColor blackColor];
     }
     
     return self;
@@ -110,20 +134,26 @@
         
         //! 將圓點設為左下角
         [self setTransform:CGAffineTransformMakeScale(1, -1)];
-
-        CGSize imgSize = image.size;
         
-        self.lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, 0, imgSize.width - XOffset, (imgSize.height / 3))];
+        self.lbTitle = [[UILabel alloc] init];
         self.lbTitle.font = [UIFont fontWithName:@"Helvetica" size:12];
         self.lbTitle.adjustsFontSizeToFitWidth = YES;
         [self addSubview:self.lbTitle];
         [self.lbTitle release];
         
-        self.lbMessage = [[UILabel alloc] initWithFrame:CGRectMake(XOffset, (imgSize.height / 3), imgSize.width - XOffset, (imgSize.height / 3))];
-        self.lbMessage.font = [UIFont fontWithName:@"Helvetica" size:12];
-        self.lbMessage.adjustsFontSizeToFitWidth = YES;
-        [self addSubview:self.lbMessage];
-        [self.lbMessage release];
+        self.lbMessage1 = [[UILabel alloc] init];
+        self.lbMessage1.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage1.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage1];
+        [self.lbMessage1 release];
+        
+        self.lbMessage2 = [[UILabel alloc] init];
+        self.lbMessage2.font = [UIFont fontWithName:@"Helvetica" size:12];
+        self.lbMessage2.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:self.lbMessage2];
+        [self.lbMessage2 release];
+        
+        self.lbTitle.textColor = self.lbMessage1.textColor = self.lbMessage2.textColor = [UIColor blackColor];
     }
     
     return self;
@@ -135,12 +165,17 @@
     
     if (self.lbTitle != nil) {
         
-        self.lbTitle.frame = CGRectMake(XOffset, 0, frame.size.width - XOffset, (frame.size.height / 3));
+        self.lbTitle.frame = CGRectMake(XOffset, 0, frame.size.width - XOffset, (frame.size.height / 4));
     }
     
-    if (self.lbMessage != nil) {
+    if (self.lbMessage1 != nil) {
         
-        self.lbMessage.frame = CGRectMake(XOffset, (frame.size.height / 3), frame.size.width - XOffset, (frame.size.height / 3));
+        self.lbMessage1.frame = CGRectMake(XOffset, (frame.size.height / 4), frame.size.width - XOffset, (frame.size.height / 4));
+    }
+    
+    if (self.lbMessage2 != nil) {
+        
+        self.lbMessage2.frame = CGRectMake(XOffset, (frame.size.height / 2), frame.size.width - XOffset, (frame.size.height / 4));
     }
 }
 
@@ -152,11 +187,38 @@
     }
 }
 
--(void) setMessage:(NSString *)message
+-(void) setMessage1:(NSString *)message
 {
-    if (self.lbMessage != nil) {
+    if (self.lbMessage1 != nil) {
         
-        self.lbMessage.text = message;
+        self.lbMessage1.text = message;
     }
+}
+
+-(void) setMessage2:(NSString *)message
+{
+    if (self.lbMessage2 != nil) {
+        
+        self.lbMessage2.text = message;
+    }
+}
+
+-(void) setTipTextColor:(UIColor *)tipTextColor
+{
+    if (self.lbTitle != nil) {
+        
+        self.lbTitle.textColor = tipTextColor;
+    }
+    
+    if (self.lbMessage1 != nil) {
+        
+        self.lbMessage1.textColor = tipTextColor;
+    }
+
+    if (self.lbMessage2 != nil) {
+        
+        self.lbMessage2.textColor = tipTextColor;
+    }
+
 }
 @end

@@ -27,6 +27,11 @@
 
 @property (assign) UIEdgeInsets edgeInset;
 
+//! 提示線顏色
+@property (nonatomic, strong) UIColor *tipLineColor;
+//! 提示框文字顏色
+@property (nonatomic, strong) UIColor *tipTextColor;
+
 //! 資料
 @property (nonatomic, strong) NSArray *dataSourceAry;
 

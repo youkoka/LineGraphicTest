@@ -24,6 +24,15 @@
 #if !__has_feature(objc_arc)
 -(void) dealloc
 {
+    OBJC_RELEASE(self.xLineColor);
+    OBJC_RELEASE(self.yLineColor);
+    
+    OBJC_RELEASE(self.xTextColor);
+    OBJC_RELEASE(self.yTextColor);
+    
+    OBJC_RELEASE(self.xAxisLineColor);
+    OBJC_RELEASE(self.yAxisLineColor);
+    
     OBJC_RELEASE(self.anchorAry);
     
     [super dealloc];
@@ -33,6 +42,14 @@
 -(id) initWithFrame:(CGRect)frame
 {
     if ( (self = [super initWithFrame:frame]) ) {
+        
+        self.xLineColor = self.xAxisLineColor = [UIColor blackColor];
+        self.yLineColor = self.yAxisLineColor = [UIColor blackColor];
+        
+        self.xTextColor = self.yTextColor = [UIColor blackColor];
+        
+        self.dataSourceLine1Color = [UIColor redColor];
+        self.dataSourceLine2Color = [UIColor orangeColor];
         
         self.anchorAry = [NSMutableArray array];
     }
@@ -61,6 +78,8 @@
 - (void)drawRect:(CGRect)rect {
     // Drawing code
 
+    [super drawRect:rect];
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     
 #pragma mark 畫點, 連接線, 指示線
@@ -180,7 +199,7 @@
                 [ChartCommon drawLine:context
                            startPoint:startAnchorPoint1
                              endPoint:endAnchorPoint1
-                            lineColor:[UIColor orangeColor] width:1.0f];
+                            lineColor:self.dataSourceLine1Color width:1.0f];
             }
             
             //! 範圍區塊內才畫
@@ -190,16 +209,16 @@
                 [ChartCommon drawLine:context
                            startPoint:startAnchorPoint2
                              endPoint:endAnchorPoint2
-                            lineColor:[UIColor redColor] width:1.0f];
+                            lineColor:self.dataSourceLine2Color width:1.0f];
             }
         }
     }
 
 #pragma mark rectangle(超出軸線部分用方塊蓋掉)
     
-    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.leftTopPoint.x, self.frame.size.height) lineColor:[UIColor clearColor] fillColor:[UIColor whiteColor]];
+    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.leftTopPoint.x, self.frame.size.height) lineColor:[UIColor clearColor] fillColor:self.backgroundColor];
     
-    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.frame.size.width, self.rightBottomPoint.y) lineColor:[UIColor clearColor] fillColor:[UIColor whiteColor]];
+    [ChartCommon drawRect:context rect:CGRectMake(0, 0, self.frame.size.width, self.rightBottomPoint.y) lineColor:[UIColor clearColor] fillColor:self.backgroundColor];
     
     //! 畫虛線
 #pragma mark 畫 Y 軸上 X 軸(虛)線
@@ -245,7 +264,7 @@
             //! 顯示文字
             NSString *valStr = [NSString stringWithFormat:@"%.2lf", [self.y1Array[i] floatValue]];
             CGSize size = [valStr sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12]];
-            [[UIColor colorWithCGColor:self.xLineColor.CGColor] set];
+            [[UIColor colorWithCGColor:self.xTextColor.CGColor] set];
             CGContextSelectFont(context, "Helvetica", 12, kCGEncodingMacRoman);
             const char *str = [valStr cStringUsingEncoding:NSUTF8StringEncoding];
             CGContextShowTextAtPoint(context, 5, yPosition - (size.height / 2 - size.height / 4), str, strlen(str));
@@ -276,7 +295,6 @@
                             lineColor:self.yLineColor width:0.1f];
             }
             //! 顯示文字
-            //! 顯示文字
             NSString *valStr = @"";
             
             if ([self.lineLabelAry count] > 0) {
@@ -292,7 +310,7 @@
             }
 
             CGSize size = [valStr sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12]];
-            [[UIColor colorWithCGColor:self.yLineColor.CGColor] set];
+            [[UIColor colorWithCGColor:self.yTextColor.CGColor] set];
             CGContextSelectFont(context, "Helvetica", 12, kCGEncodingMacRoman);
             const char *str = [valStr cStringUsingEncoding:NSUTF8StringEncoding];
             CGContextShowTextAtPoint(context, xPosition - (size.width / 2 + size.width / 4), self.originPoint.y - 15, str, strlen(str));
@@ -305,10 +323,10 @@
     CGContextSetLineDash(context,0,normal,0); //! 畫實線
 
     //! X軸
-    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.rightBottomPoint lineColor:self.xLineColor width:0.5f];
+    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.rightBottomPoint lineColor:self.xAxisLineColor width:0.5f];
 
     //! 左Y軸
-    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.leftTopPoint lineColor:self.yLineColor width:0.5f];
+    [ChartCommon drawLine:context startPoint:self.originPoint endPoint:self.leftTopPoint lineColor:self.yAxisLineColor width:0.5f];
 }
 
 #pragma mark - Custom methods

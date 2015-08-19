@@ -12,6 +12,24 @@
 
 @interface LineChartView : ChartBaseView<AnchorDelefate>
 
+//! x軸虛線/實線顏色
+@property (nonatomic, strong) UIColor *xLineColor;
+//! x軸標籤顏色
+@property (nonatomic, strong) UIColor *xTextColor;
+//! x軸顏色
+@property (nonatomic, strong) UIColor *xAxisLineColor;
+
+//! y軸虛線/實線顏色
+@property (nonatomic, strong) UIColor *yLineColor;
+//! y軸標籤顏色
+@property (nonatomic, strong) UIColor *yTextColor;
+//! y軸顏色
+@property (nonatomic, strong) UIColor *yAxisLineColor;
+
+//! 折線顏色
+@property (nonatomic, strong) UIColor *dataSourceLine1Color;
+@property (nonatomic, strong) UIColor *dataSourceLine2Color;
+
 -(id) initWithFrame:(CGRect)frame;
 
 -(void) setDataSource:(NSArray *) dataSource;

@@ -33,8 +33,6 @@
 {
     OBJC_RELEASE(self.dataSourceAry);
     OBJC_RELEASE(self.lineLabelAry);
-    OBJC_RELEASE(self.xLineColor);
-    OBJC_RELEASE(self.yLineColor);
     OBJC_RELEASE(self.tipLineView);
     OBJC_RELEASE(self.xArray);
     OBJC_RELEASE(self.y1Array);
@@ -53,6 +51,8 @@
         //! (上, 左, 下, 右)
         _edgeInset = UIEdgeInsetsMake(30, 40, 20, 10);
         
+        self.tipTextColor = [UIColor blackColor];
+        self.tipLineColor = [UIColor grayColor];
         
         //! default value
         self.drawLineTypeOfX = LineDrawTypeDottedLine;
@@ -69,8 +69,6 @@
         self.zoomScale = 1;
         
         self.backgroundColor = [UIColor clearColor];
-        self.xLineColor = [UIColor blackColor];
-        self.yLineColor = [UIColor blackColor];
         
         self.dataSourceAry = [NSArray array];
         self.lineLabelAry = [NSArray array];
@@ -80,6 +78,9 @@
         self.y2Array = [NSMutableArray array];
 
         self.tipLineView = [[[TipLineView alloc] init] autorelease];
+        self.tipLineView.tipLineColor = self.tipLineColor;
+        self.tipLineView.tipTextColor = self.tipTextColor;
+        
         [self addSubview:self.tipLineView];
         
         //! 壓住不放事件
@@ -177,6 +178,12 @@
     
     self.tipLineView.frame = CGRectMake(_edgeInset.left, _edgeInset.bottom, (self.frame.size.width - _edgeInset.right - _edgeInset.left), (self.frame.size.height - _edgeInset.top - _edgeInset.bottom));
 
+}
+
+- (void)drawRect:(CGRect)rect {
+
+    self.tipLineView.tipLineColor = self.tipLineColor;
+    self.tipLineView.tipTextColor = self.tipTextColor;
 }
 #pragma mark - UIGestureRecognizer event
 -(void) handleLongTap:(UIGestureRecognizer *) recongizer
