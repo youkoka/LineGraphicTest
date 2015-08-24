@@ -131,13 +131,15 @@
                 float xPerStepVal = [[self.xArray objectAtIndex:0] floatValue];
                 float y1PerStepVal = [[self.y1Array objectAtIndex:0] floatValue];
                 
-                startAnchorPoint1.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
+                startAnchorPoint1.x = [[self.xArray objectAtIndex:i] floatValue] + self.contentScroll.x;
+//                startAnchorPoint1.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
                 startAnchorPoint1.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y1Value) / y1PerStepVal)) + self.contentScroll.y;
                 
                 
                 float y2PerStepVal = [[self.y2Array objectAtIndex:0] floatValue];
                 
-                startAnchorPoint2.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
+                startAnchorPoint2.x = [[self.xArray objectAtIndex:i] floatValue] + self.contentScroll.x;
+//                startAnchorPoint2.x = self.originPoint.x + ((self.xPerStepWidth * startItem.xValue) / xPerStepVal) + self.contentScroll.x;
                 startAnchorPoint2.y = self.originPoint.y + fabs(((self.yPerStepHeight * startItem.y2Value) / y2PerStepVal)) + self.contentScroll.y;
                 
                 //! 畫點對點連接線及指示線
@@ -146,8 +148,8 @@
                     AnchorItem *endItem = [self.dataSourceAry objectAtIndex:i + 1];
                     
                     float xPerStepVal = [[self.xArray objectAtIndex:0] floatValue];
-                    float xPosition = self.originPoint.x + ((self.xPerStepWidth * endItem.xValue) / xPerStepVal) + self.contentScroll.x;
-                    
+//                    float xPosition = self.originPoint.x + ((self.xPerStepWidth * endItem.xValue) / xPerStepVal) + self.contentScroll.x;
+                    float xPosition = [[self.xArray objectAtIndex:i + 1] floatValue] + self.contentScroll.x;
                     float y1PerStepVal = [[self.y1Array objectAtIndex:0] floatValue];
                     float y1Position = self.originPoint.y + fabs(((self.yPerStepHeight * endItem.y1Value) / y1PerStepVal)) + self.contentScroll.y;
                     

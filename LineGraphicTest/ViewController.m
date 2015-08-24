@@ -37,14 +37,12 @@
     
     self.dataSourceAry = [NSMutableArray array];
     
-    for (int i = 0; i != 1000; i++) {
+    for (int i = 0; i != 10; i++) {
         
         AnchorItem *item = [[AnchorItem alloc] init];
-        item.xValue = i + 1;
-        item.y1Value = 1 + (rand() % 100) * 0.01 + 3;
-        item.y2Value = 1 + (rand() % 100) * 0.01;
-//        item.sLabel = @"12:20";
-//        item.dicDataSource = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%f,%f", item.xValue, item.y1Value] forKey:@"value"];
+        item.xValue = 1 + i;
+        item.y1Value = 31 + (rand() % 100) * 0.01;
+        item.y2Value = 30 + (rand() % 100) * 0.01;
         [self.dataSourceAry addObject:item];
     }
 
@@ -61,7 +59,7 @@
     self.lineChartView.isScaleToView = YES;
     self.lineChartView.isShowTipLine = YES;
     self.lineChartView.isShowAnchorPoint = YES;
-    self.lineChartView.xLineCount = 5;
+    self.lineChartView.xLineCount = 10;
     self.lineChartView.yLineCount = 10;
     self.lineChartView.backgroundColor = [UIColor blackColor];
     self.lineChartView.tipLineColor = [UIColor whiteColor];
